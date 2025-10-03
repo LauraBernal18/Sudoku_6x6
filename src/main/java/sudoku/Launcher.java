@@ -1,9 +1,9 @@
-package com.example.sudoku_6x6;
+package sudoku;
 
 import javafx.application.Application;
 
 public class Launcher {
     public static void main(String[] args) {
-        Application.launch(HelloApplication.class, args);
+        Application.launch(Main.class, args);
     }
 }

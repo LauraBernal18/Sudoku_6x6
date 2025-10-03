@@ -3,6 +3,6 @@ module com.example.sudoku_6x6 {
     requires javafx.fxml;
 
 
-    opens com.example.sudoku_6x6 to javafx.fxml;
-    exports com.example.sudoku_6x6;
+    opens sudoku to javafx.fxml;
+    exports sudoku;
 }

@@ -1,4 +1,4 @@
-package com.example.sudoku_6x6;
+package sudoku;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
