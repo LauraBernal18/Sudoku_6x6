@@ -47,4 +47,32 @@ public class SudokuValidator {
 
         return true; // El número cumple todas las reglas
     }
+
+    /**
+     * Verifica si el tablero completo es válido.
+     * Revisa que no haya duplicados en filas, columnas o bloques.
+     *
+     * @param board tablero del Sudoku 6x6
+     * @return true si todo el tablero es válido, false si hay errores
+     */
+    public static boolean isBoardValid(int[][] board) {
+        for (int row = 0; row < 6; row++) {
+            for (int col = 0; col < 6; col++) {
+                int num = board[row][col];
+                if (num != 0) { // Si hay un número en la celda
+                    // Borra temporalmente el número para verificar
+                    board[row][col] = 0;
+                    // Comprueba si sigue siendo válido
+                    if (!isValid(board, row, col, num)) {
+                        // Restaura y devuelve false
+                        board[row][col] = num;
+                        return false;
+                    }
+                    // Restaura el número
+                    board[row][col] = num;
+                }
+            }
+        }
+        return true;
+    }
 }

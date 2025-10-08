@@ -22,7 +22,7 @@
    </Label>
 
     <!-- Cuadrícula principal: 2 filas × 3 columnas de bloques -->
-    <GridPane fx:id="gridSudoku" alignment="center" prefHeight="429.0" prefWidth="454.0" style="-fx-background-color: #6DC84A;">
+    <GridPane fx:id="gridSudoku" alignment="center" prefHeight="420.0" prefWidth="463.0" style="-fx-background-color: #6DC84A;">
 
         <!-- Bloques 2x3 -->
         <!-- Fila 0, Columna 0 -->
