@@ -1,22 +1,35 @@
 package sudoku.models;
 
 /**
- * Clase encargada de validar los números y el tablero del Sudoku 6x6.
- * Se usa tanto en la generación del Sudoku como durante el juego
- * para verificar que los números cumplan las reglas.
+ * Provides validation logic for Sudoku 6x6 grids.
+ * <p>
+ * This class ensures that numbers placed on the board
+ * follow Sudoku rules: no repeated numbers in any row,
+ * column, or 2x3 sub-grid.
+ * </p>
+ * <p>
+ * It is used both during puzzle generation and while
+ * the player is entering values.
+ * </p>
+ *
+ * @author  Martin Alvarez,Laura Bernal
+ * @version 1.0
+ * @since   2025-10
  */
+
 public class SudokuValidator {
 
     /**
-     * Verifica si un número puede colocarse en la posición indicada.
-     * No se puede repetir en la fila, columna o bloque 2x3.
+     * Checks if a specific number can be placed in the given cell
+     * without violating Sudoku rules (no duplicates in row, column, or block).
      *
-     * @param board tablero del Sudoku
-     * @param row fila donde se quiere colocar el número
-     * @param col columna donde se quiere colocar el número
-     * @param num número a validar
-     * @return true si el número es válido, false si rompe una regla
+     * @param board the 6x6 Sudoku board
+     * @param row   the target row index (0–5)
+     * @param col   the target column index (0–5)
+     * @param num   the number to validate (1–6)
+     * @return {@code true} if the number is valid, {@code false} otherwise
      */
+
     public static boolean isValid(int[][] board, int row, int col, int num) {
 
         // Verificar si el número ya está en la fila
@@ -48,13 +61,18 @@ public class SudokuValidator {
         return true; // El número cumple todas las reglas
     }
 
+
     /**
-     * Verifica si el tablero completo es válido.
-     * Revisa que no haya duplicados en filas, columnas o bloques.
+     * Checks whether the entire Sudoku board is valid.
+     * <p>
+     * Ensures there are no duplicate values across rows,
+     * columns, or 2x3 sub-grids.
+     * </p>
      *
-     * @param board tablero del Sudoku 6x6
-     * @return true si todo el tablero es válido, false si hay errores
+     * @param board the 6x6 Sudoku board
+     * @return {@code true} if the board is valid, {@code false} otherwise
      */
+
     public static boolean isBoardValid(int[][] board) {
         for (int row = 0; row < 6; row++) {
             for (int col = 0; col < 6; col++) {

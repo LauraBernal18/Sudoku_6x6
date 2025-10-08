@@ -4,8 +4,34 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
+/**
+ * Generates valid Sudoku 6x6 boards and prepares playable puzzles.
+ * <p>
+ * This class is responsible for creating a fully solved Sudoku grid
+ * that follows the 6x6 Sudoku rules (2x3 sub-grids) and then removing
+ * some cells to form a puzzle that the player can solve.
+ * </p>
+ *
+ * @author  Martin Alvarez, Laura Bernal
+ * @version 1.0
+ * @since   2025-10
+ */
+
 public class SudokuGenerator {
+
+    /** Random number generator used for shuffling and randomization. */
+
     private Random random = new Random();
+
+    /**
+     * Creates a new Sudoku puzzle.
+     * <p>
+     * The method first generates a complete valid Sudoku solution,
+     * then removes selected cells to create a playable puzzle.
+     * </p>
+     *
+     * @return a 6x6 integer matrix representing the Sudoku puzzle
+     */
 
     public int[][] generate() {
         int[][] board = new int[6][6];
@@ -14,7 +40,14 @@ public class SudokuGenerator {
         return board;
     }
 
-    // Llena el tablero completo respetando las reglas
+    /**
+     * Recursively fills the Sudoku board with valid numbers following
+     * Sudoku 6x6 rules (no repetition in row, column, or 2x3 box).
+     *
+     * @param board the 6x6 board to fill
+     * @return {@code true} if the board was successfully filled, otherwise {@code false}
+     */
+
     private boolean fillBoard(int[][] board) {
         for (int row = 0; row < 6; row++) {
             for (int col = 0; col < 6; col++) {
@@ -34,7 +67,17 @@ public class SudokuGenerator {
         return true;
     }
 
-    // Reglas básicas del Sudoku 6x6
+    /**
+     * Checks whether a given number can be placed at a specific cell
+     * without violating Sudoku 6x6 constraints.
+     *
+     * @param board the Sudoku board to check
+     * @param row   the row index (0–5)
+     * @param col   the column index (0–5)
+     * @param num   the number to validate (1–6)
+     * @return {@code true} if the number can be placed, otherwise {@code false}
+     */
+
     private boolean isValid(int[][] board, int row, int col, int num) {
         for (int i = 0; i < 6; i++) {
             if (board[row][i] == num || board[i][col] == num) {
@@ -56,7 +99,17 @@ public class SudokuGenerator {
         return true;
     }
 
-    // Elimina algunas celdas para que el jugador resuelva
+    /**
+     * Removes selected cells from the filled Sudoku grid
+     * to create a puzzle for the player to solve.
+     * <p>
+     * The method iterates through each 2x3 block, shuffles cell positions,
+     * and keeps only two random numbers per block.
+     * </p>
+     *
+     * @param board the fully solved 6x6 Sudoku board
+     */
+
     private void removeCellsForPuzzle(int[][] board) {
         // Recorre los bloques 2x3
         for (int startRow = 0; startRow < 6; startRow += 2) {
