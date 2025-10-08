@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TextArea?>
@@ -9,18 +10,23 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<VBox alignment="center" prefHeight="700" prefWidth="600" spacing="15" style="-fx-background-color: #f9f9f9; -fx-padding: 15;" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sudoku.controllers.SudokuController">
+<VBox alignment="center" prefHeight="795.0" prefWidth="654.0" spacing="15" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sudoku.controllers.SudokuController">
 
-    <!-- Título -->
-    <Label style="-fx-font-size: 28px; -fx-font-weight: bold; -fx-text-fill: #333333;" text="Sudoku 6x6" />
+       <!-- Título -->
+    <Label alignment="CENTER" prefHeight="74.0" prefWidth="654.0" text="Sudoku 6x6">
+      <font>
+         <Font name="Bernard MT Condensed" size="40.0" />
+      </font>
+   </Label>
 
     <!-- Cuadrícula principal: 2 filas × 3 columnas de bloques -->
-    <GridPane fx:id="gridSudoku" alignment="center" style="-fx-padding: 10;">
+    <GridPane fx:id="gridSudoku" alignment="center" prefHeight="420.0" prefWidth="463.0" style="-fx-background-color: #6DC84A;">
 
         <!-- Bloques 2x3 -->
         <!-- Fila 0, Columna 0 -->
-        <GridPane hgap="2" style="-fx-border-color: gray; -fx-border-width: 3; -fx-background-color: gray;" vgap="2" GridPane.columnIndex="0" GridPane.rowIndex="0">
+        <GridPane hgap="2" style="-fx-border-color: gray; -fx-border-width: 3; -fx-background-color: gray;" vgap="2">
             <TextField fx:id="cell00" alignment="center" prefHeight="60" prefWidth="60" GridPane.columnIndex="0" GridPane.rowIndex="0" />
             <TextField fx:id="cell01" alignment="center" prefHeight="60" prefWidth="60" GridPane.columnIndex="1" GridPane.rowIndex="0" />
             <TextField fx:id="cell02" alignment="center" prefHeight="60" prefWidth="60" GridPane.columnIndex="2" GridPane.rowIndex="0" />
@@ -39,7 +45,7 @@
         </GridPane>
 
         <!-- Fila 0, Columna 1 -->
-        <GridPane hgap="2" style="-fx-border-color: gray; -fx-border-width: 3; -fx-background-color: gray;" vgap="2" GridPane.columnIndex="1" GridPane.rowIndex="0">
+        <GridPane hgap="2" style="-fx-border-color: gray; -fx-border-width: 3; -fx-background-color: gray;" vgap="2" GridPane.columnIndex="1">
             <TextField fx:id="cell03" alignment="center" prefHeight="60" prefWidth="60" GridPane.columnIndex="0" GridPane.rowIndex="0" />
             <TextField fx:id="cell04" alignment="center" prefHeight="60" prefWidth="60" GridPane.columnIndex="1" GridPane.rowIndex="0" />
             <TextField fx:id="cell05" alignment="center" prefHeight="60" prefWidth="60" GridPane.columnIndex="2" GridPane.rowIndex="0" />
@@ -58,7 +64,7 @@
         </GridPane>
 
         <!-- Fila 1, Columna 0 -->
-        <GridPane hgap="2" style="-fx-border-color: gray; -fx-border-width: 3; -fx-background-color: gray;" vgap="2" GridPane.columnIndex="0" GridPane.rowIndex="1">
+        <GridPane hgap="2" style="-fx-border-color: gray; -fx-border-width: 3; -fx-background-color: gray;" vgap="2" GridPane.rowIndex="1">
             <TextField fx:id="cell20" alignment="center" prefHeight="60" prefWidth="60" GridPane.columnIndex="0" GridPane.rowIndex="0" />
             <TextField fx:id="cell21" alignment="center" prefHeight="60" prefWidth="60" GridPane.columnIndex="1" GridPane.rowIndex="0" />
             <TextField fx:id="cell22" alignment="center" prefHeight="60" prefWidth="60" GridPane.columnIndex="2" GridPane.rowIndex="0" />
@@ -96,7 +102,7 @@
         </GridPane>
 
         <!-- Fila 2, Columna 0 -->
-        <GridPane hgap="2" style="-fx-border-color: gray; -fx-border-width: 3; -fx-background-color: gray;" vgap="2" GridPane.columnIndex="0" GridPane.rowIndex="2">
+        <GridPane hgap="2" style="-fx-border-color: gray; -fx-border-width: 3; -fx-background-color: gray;" vgap="2" GridPane.rowIndex="2">
             <TextField fx:id="cell40" alignment="center" prefHeight="60" prefWidth="60" GridPane.columnIndex="0" GridPane.rowIndex="0" />
             <TextField fx:id="cell41" alignment="center" prefHeight="60" prefWidth="60" GridPane.columnIndex="1" GridPane.rowIndex="0" />
             <TextField fx:id="cell42" alignment="center" prefHeight="60" prefWidth="60" GridPane.columnIndex="2" GridPane.rowIndex="0" />
@@ -141,17 +147,53 @@
          <RowConstraints />
          <RowConstraints />
       </rowConstraints>
+      <padding>
+         <Insets bottom="25.0" left="10.0" right="10.0" top="25.0" />
+      </padding>
+      <VBox.margin>
+         <Insets left="100.0" right="100.0" />
+      </VBox.margin>
     </GridPane>
 
     <!-- Botones -->
-    <HBox alignment="center" spacing="15">
-        <Button fx:id="btnNuevoJuego" onAction="#nuevoJuego" text="Nuevo Juego" />
-        <Button fx:id="btnVerificar" onAction="#verificarSudoku" text="Verificar" />
-        <Button fx:id="btnAyuda" onAction="#mostrarAyuda" text="Ayuda" />
+    <HBox alignment="center" prefHeight="50.0" prefWidth="570.0" spacing="15">
+        <Button fx:id="btnNuevoJuego" onAction="#nuevoJuego" prefHeight="35.0" prefWidth="124.0" style="-fx-background-color: #6297A1;" text="Nuevo Juego">
+         <font>
+            <Font name="Tw Cen MT Condensed Extra Bold" size="19.0" />
+         </font>
+         <padding>
+            <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+         </padding>
+         <HBox.margin>
+            <Insets />
+         </HBox.margin></Button>
+        <Button fx:id="btnVerificar" onAction="#verificarSudoku" prefHeight="35.0" prefWidth="96.0" style="-fx-background-color: #6297A1;" text="Verificar" textAlignment="CENTER" textOverrun="CENTER_ELLIPSIS">
+         <padding>
+            <Insets top="5.0" />
+         </padding>
+         <font>
+            <Font name="Tw Cen MT Condensed Extra Bold" size="19.0" />
+         </font>
+         <HBox.margin>
+            <Insets left="10.0" right="10.0" />
+         </HBox.margin></Button>
+        <Button fx:id="btnAyuda" onAction="#mostrarAyuda" prefHeight="35.0" prefWidth="90.0" style="-fx-background-color: #6DC84A;" text="Ayuda">
+         <font>
+            <Font name="Tw Cen MT Condensed Extra Bold" size="19.0" />
+         </font></Button>
     </HBox>
 
     <!-- Mensajes -->
-    <Label fx:id="lblMensaje" alignment="center" style="-fx-font-size: 16px; -fx-text-fill: #2E8B57;" text="Bienvenido al Sudoku 6x6" />
+    <Label fx:id="lblMensaje" alignment="center" text="Bienvenido al Sudoku 6x6">
+      <font>
+         <Font name="Tw Cen MT Condensed" size="22.0" />
+      </font></Label>
 
-    <TextArea fx:id="txtInstrucciones" editable="false" prefHeight="131.0" prefWidth="570.0" style="-fx-font-size: 14px; -fx-control-inner-background: #f0f8ff;" text="Instrucciones del juego:&#10;1) Llena cada celda con un número del 1 al 6.&#10;2) No repitas números en filas, columnas ni en cada bloque 2x3.&#10;3) Usa el botón 'Nuevo Juego' para generar un tablero distinto.&#10;4) Usa 'Verificar' para revisar si el Sudoku está correcto.&#10;5) Usa 'Ayuda' si te quedas atascado (opción limitada)." wrapText="true" />
+    <TextArea fx:id="txtInstrucciones" editable="false" prefHeight="141.0" prefWidth="570.0" style="-fx-control-inner-background: #f0f8ff;" text="Instrucciones del juego:&#10;1) Llena cada celda con un número del 1 al 6.&#10;2) No repitas números en filas, columnas ni en cada bloque 2x3.&#10;3) Usa el botón 'Nuevo Juego' para generar un tablero distinto.&#10;4) Usa 'Verificar' para revisar si el Sudoku está correcto.&#10;5) Usa 'Ayuda' si te quedas atascado (opción limitada)." wrapText="true">
+      <VBox.margin>
+         <Insets bottom="15.0" left="15.0" right="15.0" />
+      </VBox.margin>
+      <font>
+         <Font size="15.0" />
+      </font></TextArea>
 </VBox>
