@@ -26,6 +26,7 @@ public class SudokuView extends Stage {
     }
 
     public SudokuController getSudokuController() {
+
         return sudokuController;
     }
 

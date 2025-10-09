@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="sudoku.controllers.WelcomeController"
+      alignment="CENTER"
+      spacing="20"
+      style="-fx-background-color: #f8f8f8;"
+      prefWidth="500" prefHeight="400">
+
+    <!-- Título -->
+    <Label text="Bienvenido al Sudoku 6x6"
+           style="-fx-font-size: 22px; -fx-font-weight: bold; -fx-text-fill: #2c3e50;" />
+
+    <!-- Área de instrucciones -->
+    <TextArea fx:id="txtInstrucciones"
+              editable="false"
+              wrapText="true"
+              prefWidth="440"
+              prefHeight="220"
+              style="-fx-font-size: 14px; -fx-control-inner-background: #ffffff; -fx-border-color: #cccccc; -fx-border-radius: 6px;"
+              text="Reglas del juego:\n
+1. Completa la cuadrícula 6x6 con números del 1 al 6.\n
+2. Cada fila, columna y bloque 2x3 debe tener todos los números sin repetir.\n
+3. Puedes pedir hasta 3 ayudas por partida.\n
+4. Usa el botón 'Verificar' para revisar si completaste correctamente.\n
+5. ¡Buena suerte!" />
+
+    <!-- Botones -->
+    <HBox spacing="25" alignment="CENTER">
+        <Button fx:id="btnIniciar" onAction="#onActionStartButton"
+                text="Iniciar Juego"
+                prefWidth="150"
+                style="-fx-background-color: #27ae60; -fx-text-fill: white; -fx-font-size: 14px;" />
+        <Button fx:id="btnSalir"
+                text="Salir"
+                prefWidth="150"
+                style="-fx-background-color: #c0392b; -fx-text-fill: white; -fx-font-size: 14px;" />
+    </HBox>
+
+    <!-- Espaciado inferior -->
+    <Region VBox.vgrow="ALWAYS" />
+
+</VBox>
