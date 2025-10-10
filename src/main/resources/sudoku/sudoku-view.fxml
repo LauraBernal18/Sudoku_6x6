@@ -22,7 +22,7 @@
    </Label>
 
     <!-- Cuadrícula principal: 2 filas × 3 columnas de bloques -->
-    <GridPane fx:id="gridSudoku" alignment="center" prefHeight="420.0" prefWidth="463.0" style="-fx-background-color: #6DC84A;">
+    <GridPane fx:id="gridPane" alignment="center" prefHeight="420.0" prefWidth="463.0" style="-fx-background-color: #6DC84A;">
 
         <!-- Bloques 2x3 -->
         <!-- Fila 0, Columna 0 -->
@@ -157,7 +157,7 @@
 
     <!-- Botones -->
     <HBox alignment="center" prefHeight="50.0" prefWidth="570.0" spacing="15">
-        <Button fx:id="btnNuevoJuego" onAction="#nuevoJuego" prefHeight="35.0" prefWidth="124.0" style="-fx-background-color: #6297A1;" text="Nuevo Juego">
+        <Button fx:id="btnNuevoJuego" onAction="#cargarNuevoJuego" prefHeight="35.0" prefWidth="124.0" style="-fx-background-color: #6297A1;" text="Nuevo Juego">
          <font>
             <Font name="Tw Cen MT Condensed Extra Bold" size="19.0" />
          </font>
@@ -177,7 +177,7 @@
          <HBox.margin>
             <Insets left="10.0" right="10.0" />
          </HBox.margin></Button>
-        <Button fx:id="btnAyuda" onAction="#mostrarAyuda" prefHeight="35.0" prefWidth="90.0" style="-fx-background-color: #6DC84A;" text="Ayuda">
+        <Button fx:id="btnAyuda" onAction="#pedirAyuda" prefHeight="35.0" prefWidth="90.0" style="-fx-background-color: #6DC84A;" text="Ayuda">
          <font>
             <Font name="Tw Cen MT Condensed Extra Bold" size="19.0" />
          </font></Button>
