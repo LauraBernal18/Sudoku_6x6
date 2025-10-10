@@ -1,7 +1,7 @@
 module sudoku {
     requires javafx.controls;
     requires javafx.fxml;
-
+    requires java.desktop;
 
 
     opens sudoku to javafx.fxml;

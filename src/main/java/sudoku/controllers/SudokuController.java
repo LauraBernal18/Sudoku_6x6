@@ -2,17 +2,18 @@ package sudoku.controllers;
 
 import javafx.event.ActionEvent;
 
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.GridPane;
 import sudoku.models.SudokuBoard;
 import sudoku.models.SudokuGenerator;
 import sudoku.models.SudokuValidator;
 
+import javafx.scene.input.KeyEvent;
 
 
 public class SudokuController {
@@ -20,7 +21,7 @@ public class SudokuController {
     // Referencias al tablero y celdas
     @FXML private GridPane gridPane;
 
-    // 36 TextField (ya definidos en tu FXML)
+    // 36 TextField (ya definidos en el FXML)
     @FXML private TextField cell00, cell01, cell02, cell03, cell04, cell05;
     @FXML private TextField cell10, cell11, cell12, cell13, cell14, cell15;
     @FXML private TextField cell20, cell21, cell22, cell23, cell24, cell25;
@@ -33,7 +34,7 @@ public class SudokuController {
     @FXML private Button btnVerificar;
     @FXML private Button btnAyuda;
     @FXML private Label lblMensaje;
-    @FXML private TextArea txtInstrucciones;
+    // @FXML private TextArea txtInstrucciones;
 
     // Modelo del tablero
     private SudokuBoard board;
@@ -42,6 +43,7 @@ public class SudokuController {
     // Inicialización
     @FXML
     public void initialize() {
+        //Crear el modelo y organizar las celdas
         board = new SudokuBoard();
         celdas = new TextField[][] {
                 {cell00, cell01, cell02, cell03, cell04, cell05},
@@ -52,9 +54,10 @@ public class SudokuController {
                 {cell50, cell51, cell52, cell53, cell54, cell55}
         };
 
+        //Generar primer tablero
         cargarNuevoJuego();
 
-        for (int fila = 0; fila < 6; fila++) {
+        /*for (int fila = 0; fila < 6; fila++) {
             for (int col = 0; col < 6; col++) {
                 TextField celda = celdas[fila][col];
 
@@ -65,7 +68,7 @@ public class SudokuController {
                 celda.setOnKeyReleased(e -> manejarEntrada(celda, f, c));
             }
         }
-
+        */
 
 
     }
@@ -77,10 +80,12 @@ public class SudokuController {
         int[][] nuevoTablero = generador.generate();
         board.setBoard(nuevoTablero);
         mostrarTablero();
-        System.out.println(SudokuValidator.isBoardValid(board.getBoard()));
+        //System.out.println(SudokuValidator.isBoardValid(board.getBoard()));
 
         lblMensaje.setText("Nuevo Sudoku generado.");
     }
+
+
 
     // Mostrar los valores del modelo en los TextField
     private void mostrarTablero() {
@@ -99,6 +104,17 @@ public class SudokuController {
                     celda.setText("");
                     celda.setEditable(true);
                 }
+
+                //ASIGNAR ESCUCHA DE TECLADO A LAS 36 CELDAS
+                final int f = fila;
+                final int c = col;
+
+                celda.setOnKeyReleased(new EventHandler<KeyEvent>() {
+                    @Override
+                    public void handle(KeyEvent event){
+                        manejarEntrada(celda,f,c);
+                    }
+                });
 
 
             }
@@ -125,7 +141,8 @@ public class SudokuController {
 
             if (SudokuValidator.isValid(board.getBoard(), fila, col, valor)) {
                 board.setCell(fila, col, valor);
-            } else {
+            }
+            else {
                 mostrarAlerta("Movimiento no válido", "Ese número rompe las reglas del Sudoku.");
                 celda.clear();
             }
