@@ -80,7 +80,7 @@ public class SudokuController {
         int[][] nuevoTablero = generador.generate();
         board.setBoard(nuevoTablero);
         mostrarTablero();
-        //System.out.println(SudokuValidator.isBoardValid(board.getBoard()));
+        //System.out.println(SudokuValidator.isBoardValid(board.getBoard())); innecesario
 
         lblMensaje.setText("Nuevo Sudoku generado");
     }
