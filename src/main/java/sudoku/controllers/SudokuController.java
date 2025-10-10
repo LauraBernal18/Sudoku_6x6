@@ -82,7 +82,7 @@ public class SudokuController {
         mostrarTablero();
         //System.out.println(SudokuValidator.isBoardValid(board.getBoard()));
 
-        lblMensaje.setText("Nuevo Sudoku generado.");
+        lblMensaje.setText("Nuevo Sudoku generado");
     }
 
 
