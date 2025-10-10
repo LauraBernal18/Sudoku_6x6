@@ -190,4 +190,26 @@ public class SudokuController {
         alerta.showAndWait();
     }
 
+    @FXML
+    void onActionHowToPlayButton(ActionEvent event) {
+        String instrucciones = """
+            Cómo jugar Sudoku 6x6:
+
+            1) Cada fila debe contener los números del 1 al 6 sin repetir.
+            2) Cada columna debe contener los números del 1 al 6 sin repetir.
+            3) Cada bloque de 2x3 debe tener también los números del 1 al 6 sin repetir.
+            4) Usa solo números del 1 al 6.
+            5) Si ingresas un número incorrecto, el sistema te avisará.
+            6) Puedes pedir ayuda con el botón 'Ayuda'.
+            7) Para comenzar una nueva partida, presiona 'Nuevo Juego'.
+            """;
+
+        Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+        alerta.setTitle("Instrucciones del Sudoku 6x6");
+        alerta.setHeaderText(null);
+        alerta.setContentText(instrucciones);
+        alerta.showAndWait();
+
+    }
+
 }
