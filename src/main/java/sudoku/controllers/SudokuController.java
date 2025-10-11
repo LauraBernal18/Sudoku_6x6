@@ -1,7 +1,6 @@
 package sudoku.controllers;
 
 import javafx.event.ActionEvent;
-
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -15,13 +14,29 @@ import sudoku.models.SudokuValidator;
 
 import javafx.scene.input.KeyEvent;
 
+import javafx.animation.PauseTransition;
+import javafx.util.Duration;
+
+/**
+ * Controller class responsible for handling all user interactions
+ * and managing the logic for the Sudoku 6x6 game.
+ * <p>
+ * It connects the user interface (FXML) with the model classes
+ * {@link SudokuBoard}, {@link SudokuGenerator}, and {@link SudokuValidator}.
+ * </p>
+ *
+ * @author Martin Alvarez, Laura Bernal
+ * @version 1.0
+ * @since 2025-10-10
+ */
+
 
 public class SudokuController {
 
-    // Referencias al tablero y celdas
+    /** Main grid pane of the Sudoku board. */
     @FXML private GridPane gridPane;
 
-    // 36 TextField (ya definidos en el FXML)
+    /** 36 text fields representing Sudoku cells in a 6x6 grid. */
     @FXML private TextField cell00, cell01, cell02, cell03, cell04, cell05;
     @FXML private TextField cell10, cell11, cell12, cell13, cell14, cell15;
     @FXML private TextField cell20, cell21, cell22, cell23, cell24, cell25;
@@ -29,18 +44,22 @@ public class SudokuController {
     @FXML private TextField cell40, cell41, cell42, cell43, cell44, cell45;
     @FXML private TextField cell50, cell51, cell52, cell53, cell54, cell55;
 
-    // Botones e interfaz
+    /** Interface buttons and labels. */
     @FXML private Button btnNuevoJuego;
     @FXML private Button btnVerificar;
     @FXML private Button btnAyuda;
     @FXML private Label lblMensaje;
     // @FXML private TextArea txtInstrucciones;
 
-    // Modelo del tablero
+    /** The logical Sudoku board model. */
     private SudokuBoard board;
+    /** Matrix of text fields mapped to board positions. */
     private TextField[][] celdas;
 
-    // Inicialización
+    /**
+     * Initializes the controller, creates the board model,
+     * and prepares the first Sudoku game.
+     */
     @FXML
     public void initialize() {
         //Crear el modelo y organizar las celdas
@@ -55,39 +74,54 @@ public class SudokuController {
         };
 
         //Generar primer tablero
-        cargarNuevoJuego();
-
-        /*for (int fila = 0; fila < 6; fila++) {
-            for (int col = 0; col < 6; col++) {
-                TextField celda = celdas[fila][col];
-
-                // Crear copias locales (efectivamente finales)
-                int f = fila;
-                int c = col;
-
-                celda.setOnKeyReleased(e -> manejarEntrada(celda, f, c));
-            }
-        }
-        */
-
+        iniciarJuego();
 
     }
 
-    // Generar nuevo tablero
-    @FXML
-    private void cargarNuevoJuego() {
+    /**
+     * Starts a new Sudoku game when the application first loads.
+     * It generates a new random board and displays it.
+     */
+    private void iniciarJuego() {
+
         SudokuGenerator generador = new SudokuGenerator();
         int[][] nuevoTablero = generador.generate();
         board.setBoard(nuevoTablero);
         mostrarTablero();
-        //System.out.println(SudokuValidator.isBoardValid(board.getBoard())); innecesario
+        lblMensaje.setText("Bienvenido al Sudoku 6x6");
+    }
 
-        lblMensaje.setText("Nuevo Sudoku generado");
+    /**
+     * Handles the "New Game" button event.
+     * Displays a confirmation alert before generating a new Sudoku board.
+     *
+     * @param event Action event triggered by the "New Game" button.
+     */
+    @FXML
+    private void nuevoJuego(ActionEvent event) {
+        Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmacion.setTitle("Confirmar nuevo juego");
+        confirmacion.setHeaderText(null);
+        confirmacion.setContentText("¿Deseas comenzar un nuevo Sudoku?\nSe perderá el progreso actual.");
+
+        var resultado = confirmacion.showAndWait();
+
+        if (resultado.isPresent() && resultado.get().getButtonData().isDefaultButton()) {
+            SudokuGenerator generador = new SudokuGenerator();
+            int[][] nuevoTablero = generador.generate();
+            board.setBoard(nuevoTablero);
+            mostrarTablero();
+            lblMensaje.setText("Nuevo Sudoku generado");
+        } else {
+            lblMensaje.setText("Continuas con el juego actual.");
+        }
     }
 
 
-
-    // Mostrar los valores del modelo en los TextField
+    /**
+     * Displays the Sudoku board in the text fields.
+     * Fills in the generated numbers and enables event handling for editable cells.
+     */
     private void mostrarTablero() {
         int[][] matriz = board.getBoard();
 
@@ -121,7 +155,14 @@ public class SudokuController {
         }
     }
 
-    // Manejar entrada del jugador
+    /**
+     * Handles user input for each Sudoku cell, validating numbers
+     * and ensuring they follow Sudoku rules.
+     *
+     * @param celda TextField where the user typed.
+     * @param fila  Row index of the cell.
+     * @param col   Column index of the cell.
+     */
     private void manejarEntrada(TextField celda, int fila, int col) {
         String texto = celda.getText();
 
@@ -134,7 +175,7 @@ public class SudokuController {
             int valor = Integer.parseInt(texto);
 
             if (valor < 1 || valor > 6) {
-                mostrarAlerta("Número inválido", "Por favor ingresa un número entre 1 y 6.");
+                mostrarAlerta("Número inválido", "Por favor ingresa un número entre 1 y 6.", celda);
                 celda.clear();
                 return;
             }
@@ -143,16 +184,20 @@ public class SudokuController {
                 board.setCell(fila, col, valor);
             }
             else {
-                mostrarAlerta("Movimiento no válido", "Ese número rompe las reglas del Sudoku.");
+                mostrarAlerta("Movimiento no válido", "Ese número rompe las reglas del Sudoku.", celda);
                 celda.clear();
             }
         } catch (NumberFormatException e) {
-            mostrarAlerta("Entrada inválida", "Solo puedes escribir números.");
+            mostrarAlerta("Entrada inválida", "Solo puedes escribir números.", celda);
             celda.clear();
         }
     }
 
-    // Verificar si el Sudoku está completo y correcto
+    /**
+     * Verifies if the Sudoku board is completely and correctly filled.
+     *
+     * @param event Action event triggered by the "Verify" button.
+     */
     @FXML
     public void verificarSudoku(ActionEvent event) {
         int[][] matriz = board.getBoard();
@@ -160,7 +205,7 @@ public class SudokuController {
         for (int[] fila : matriz) {
             for (int valor : fila) {
                 if (valor == 0) {
-                    mostrarAlerta("Incompleto", "Aún hay celdas vacías.");
+                    mostrarAlerta("Incompleto", "Aún hay celdas vacías.", null);
                     return;
                 }
             }
@@ -168,26 +213,120 @@ public class SudokuController {
 
         if (SudokuValidator.isBoardValid(matriz)) {
             lblMensaje.setText("¡Felicitaciones! Sudoku correcto.");
-            mostrarAlerta("Correcto", "¡Felicitaciones! Sudoku completo.");
+            mostrarAlerta("Correcto", "¡Felicitaciones! Sudoku completo.", null);
         } else {
             lblMensaje.setText("El Sudoku tiene errores.");
-            mostrarAlerta("Error", "Hay números que no cumplen las reglas.");
+            mostrarAlerta("Error", "Hay números que no cumplen las reglas.", null);
         }
     }
 
-    // Mostrar ayuda (basica, sin IA)
+    /**
+     * Provides a help suggestion to the player by highlighting
+     * one empty cell with a valid possible number.
+     * The suggested cell is highlighted for 3 seconds.
+     */
     @FXML
     private void pedirAyuda() {
-        mostrarAlerta("Ayuda", "Busca celdas donde solo haya un número posible según las reglas.");
+        int[][] tablero = board.getBoard();
+
+        // Buscar una celda vacía
+        for (int fila = 0; fila < 6; fila++) {
+            for (int col = 0; col < 6; col++) {
+                if (tablero[fila][col] == 0) {
+
+                    // Buscar un número válido del 1 al 6
+                    for (int num = 1; num <= 6; num++) {
+                        if (SudokuValidator.isValid(tablero, fila, col, num)) {
+
+                            // Resaltar la celda (solo sugerencia visual)
+                            TextField celda = celdas[fila][col];
+                            celda.setStyle("-fx-background-color: yellow;");
+
+                            // Mostrar mensaje en la etiqueta
+                            lblMensaje.setText("Sugerencia: En la celda (" + (fila + 1) + "," + (col + 1) + ") podrías probar el número " + num);
+
+                            // Mostrar alerta al usuario
+                            Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+                            alerta.setTitle("Sugerencia de ayuda");
+                            alerta.setHeaderText(null);
+                            alerta.setContentText("En la celda (" + (fila + 1) + "," + (col + 1) + ") puedes probar el número " + num + ".");
+                            alerta.showAndWait();
+
+                            // Esperar 3 segundos y luego quitar el color
+                            javafx.animation.PauseTransition pausa = new javafx.animation.PauseTransition(javafx.util.Duration.seconds(3));
+                            pausa.setOnFinished(e -> celda.setStyle(""));
+                            pausa.play();
+
+
+                            return; // Solo una sugerencia por clic
+                        }
+                    }
+                }
+            }
+        }
+
+        // Si no hay celdas vacías o sugerencias
+        Alert sinAyuda = new Alert(Alert.AlertType.INFORMATION);
+        sinAyuda.setTitle("Ayuda");
+        sinAyuda.setHeaderText(null);
+        sinAyuda.setContentText("No hay más sugerencias disponibles.");
+        sinAyuda.showAndWait();
     }
 
-    // Mostrar mensajes
-    private void mostrarAlerta(String titulo, String mensaje) {
+    /**
+     * Displays different types of alert messages to the user.
+     * Optionally highlights a cell in red for 1 second if an error is related to that cell.
+     *
+     * @param titulo  Alert window title.
+     * @param mensaje Text message shown in the alert.
+     * @param celda   The text field to highlight (can be null).
+     */
+    private void mostrarAlerta(String titulo, String mensaje, TextField celda) {
+        // Si se pasa una celda, resáltala en rojo
+        if (celda != null) {
+            celda.setStyle("-fx-background-color: #ffb3b3; -fx-border-color: red; -fx-border-width: 2;");
+        }
+
         Alert alerta = new Alert(Alert.AlertType.INFORMATION);
         alerta.setTitle(titulo);
         alerta.setHeaderText(null);
         alerta.setContentText(mensaje);
         alerta.showAndWait();
+
+        // Después de cerrar la alerta, restaurar el estilo
+        if (celda != null) {
+            // Esperar 1 segundo antes de restaurar el color original
+            PauseTransition pausa = new PauseTransition(Duration.seconds(1));
+            pausa.setOnFinished(e -> celda.setStyle(""));
+            pausa.play();
+        }
+    }
+
+    /**
+     * Displays the game instructions in a pop-up alert window.
+     *
+     * @param event Action event triggered by the "How to Play" button.
+     */
+    @FXML
+    void onActionHowToPlayButton(ActionEvent event) {
+        String instrucciones = """
+            Cómo jugar Sudoku 6x6:
+
+            1) Cada fila debe contener los números del 1 al 6 sin repetir.
+            2) Cada columna debe contener los números del 1 al 6 sin repetir.
+            3) Cada bloque de 2x3 debe tener también los números del 1 al 6 sin repetir.
+            4) Usa solo números del 1 al 6.
+            5) Si ingresas un número incorrecto, el sistema te avisará.
+            6) Puedes pedir ayuda con el botón 'Ayuda'.
+            7) Para comenzar una nueva partida, presiona 'Nuevo Juego'.
+            """;
+
+        Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+        alerta.setTitle("Instrucciones del Sudoku 6x6");
+        alerta.setHeaderText(null);
+        alerta.setContentText(instrucciones);
+        alerta.showAndWait();
+
     }
 
 }

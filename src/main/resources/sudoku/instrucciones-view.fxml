@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="CENTER" prefHeight="319.0" prefWidth="500" spacing="20" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/24.0.1" fx:controller="sudoku.controllers.WelcomeController">
+<VBox alignment="CENTER" prefHeight="319.0" prefWidth="500" spacing="20" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sudoku.controllers.WelcomeController">
 
     <!-- Título -->
     <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="0.0" prefWidth="500.0" style="-fx-background-color: #6DC84A;" text="Bienvenido al Sudoku 6x6" textAlignment="CENTER">
@@ -49,7 +49,7 @@
          <padding>
             <Insets top="5.0" />
          </padding></Button>
-        <Button fx:id="btnSalir" prefWidth="150" style="-fx-background-color: gray;" text="Salir">
+        <Button fx:id="btnSalir" onAction="#onActionExitButton" prefWidth="150" style="-fx-background-color: gray;" text="Salir">
          <font>
             <Font name="Tw Cen MT Condensed Extra Bold" size="18.0" />
          </font></Button>

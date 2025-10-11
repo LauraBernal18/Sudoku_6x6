@@ -15,6 +15,7 @@ public class WelcomeController {
     @FXML
     private TextField nicknameTextField;
 
+
     @FXML
     void onActionStartButton(ActionEvent event) throws IOException {
         SudokuView sudokuView = SudokuView.getInstance();
@@ -25,6 +26,11 @@ public class WelcomeController {
         Stage stage = (Stage)source.getScene().getWindow();
         SudokuController sudokuController = sudokuView.getSudokuController();
 
+    }
+
+    @FXML
+    void onActionExitButton(ActionEvent event) throws IOException {
+        System.exit(0);
     }
 
 }
