@@ -17,13 +17,26 @@ import javafx.scene.input.KeyEvent;
 import javafx.animation.PauseTransition;
 import javafx.util.Duration;
 
+/**
+ * Controller class responsible for handling all user interactions
+ * and managing the logic for the Sudoku 6x6 game.
+ * <p>
+ * It connects the user interface (FXML) with the model classes
+ * {@link SudokuBoard}, {@link SudokuGenerator}, and {@link SudokuValidator}.
+ * </p>
+ *
+ * @author Martin Alvarez, Laura Bernal
+ * @version 1.0
+ * @since 2025-10-10
+ */
+
 
 public class SudokuController {
 
-    // Referencias al tablero y celdas
+    /** Main grid pane of the Sudoku board. */
     @FXML private GridPane gridPane;
 
-    // 36 TextField (ya definidos en el FXML)
+    /** 36 text fields representing Sudoku cells in a 6x6 grid. */
     @FXML private TextField cell00, cell01, cell02, cell03, cell04, cell05;
     @FXML private TextField cell10, cell11, cell12, cell13, cell14, cell15;
     @FXML private TextField cell20, cell21, cell22, cell23, cell24, cell25;
@@ -31,18 +44,22 @@ public class SudokuController {
     @FXML private TextField cell40, cell41, cell42, cell43, cell44, cell45;
     @FXML private TextField cell50, cell51, cell52, cell53, cell54, cell55;
 
-    // Botones e interfaz
+    /** Interface buttons and labels. */
     @FXML private Button btnNuevoJuego;
     @FXML private Button btnVerificar;
     @FXML private Button btnAyuda;
     @FXML private Label lblMensaje;
     // @FXML private TextArea txtInstrucciones;
 
-    // Modelo del tablero
+    /** The logical Sudoku board model. */
     private SudokuBoard board;
+    /** Matrix of text fields mapped to board positions. */
     private TextField[][] celdas;
 
-    // Inicialización
+    /**
+     * Initializes the controller, creates the board model,
+     * and prepares the first Sudoku game.
+     */
     @FXML
     public void initialize() {
         //Crear el modelo y organizar las celdas
@@ -61,6 +78,10 @@ public class SudokuController {
 
     }
 
+    /**
+     * Starts a new Sudoku game when the application first loads.
+     * It generates a new random board and displays it.
+     */
     private void iniciarJuego() {
 
         SudokuGenerator generador = new SudokuGenerator();
@@ -70,6 +91,12 @@ public class SudokuController {
         lblMensaje.setText("Bienvenido al Sudoku 6x6");
     }
 
+    /**
+     * Handles the "New Game" button event.
+     * Displays a confirmation alert before generating a new Sudoku board.
+     *
+     * @param event Action event triggered by the "New Game" button.
+     */
     @FXML
     private void nuevoJuego(ActionEvent event) {
         Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION);
@@ -91,7 +118,10 @@ public class SudokuController {
     }
 
 
-    // Mostrar los valores del modelo en los TextField
+    /**
+     * Displays the Sudoku board in the text fields.
+     * Fills in the generated numbers and enables event handling for editable cells.
+     */
     private void mostrarTablero() {
         int[][] matriz = board.getBoard();
 
@@ -125,7 +155,14 @@ public class SudokuController {
         }
     }
 
-    // Manejar entrada del jugador
+    /**
+     * Handles user input for each Sudoku cell, validating numbers
+     * and ensuring they follow Sudoku rules.
+     *
+     * @param celda TextField where the user typed.
+     * @param fila  Row index of the cell.
+     * @param col   Column index of the cell.
+     */
     private void manejarEntrada(TextField celda, int fila, int col) {
         String texto = celda.getText();
 
@@ -156,7 +193,11 @@ public class SudokuController {
         }
     }
 
-    // Verificar si el Sudoku está completo y correcto
+    /**
+     * Verifies if the Sudoku board is completely and correctly filled.
+     *
+     * @param event Action event triggered by the "Verify" button.
+     */
     @FXML
     public void verificarSudoku(ActionEvent event) {
         int[][] matriz = board.getBoard();
@@ -179,7 +220,11 @@ public class SudokuController {
         }
     }
 
-    // Mostrar ayuda
+    /**
+     * Provides a help suggestion to the player by highlighting
+     * one empty cell with a valid possible number.
+     * The suggested cell is highlighted for 3 seconds.
+     */
     @FXML
     private void pedirAyuda() {
         int[][] tablero = board.getBoard();
@@ -228,7 +273,14 @@ public class SudokuController {
         sinAyuda.showAndWait();
     }
 
-    // Mostrar mensajes
+    /**
+     * Displays different types of alert messages to the user.
+     * Optionally highlights a cell in red for 1 second if an error is related to that cell.
+     *
+     * @param titulo  Alert window title.
+     * @param mensaje Text message shown in the alert.
+     * @param celda   The text field to highlight (can be null).
+     */
     private void mostrarAlerta(String titulo, String mensaje, TextField celda) {
         // Si se pasa una celda, resáltala en rojo
         if (celda != null) {
@@ -250,6 +302,11 @@ public class SudokuController {
         }
     }
 
+    /**
+     * Displays the game instructions in a pop-up alert window.
+     *
+     * @param event Action event triggered by the "How to Play" button.
+     */
     @FXML
     void onActionHowToPlayButton(ActionEvent event) {
         String instrucciones = """
