@@ -176,7 +176,7 @@
 
     <!-- Botones -->
     <HBox alignment="center" prefHeight="50.0" prefWidth="570.0" spacing="15">
-        <Button fx:id="btnNuevoJuego" onAction="#cargarNuevoJuego" prefHeight="35.0" prefWidth="124.0" style="-fx-background-color: #6297A1;" text="Nuevo Juego">
+        <Button fx:id="btnNuevoJuego" onAction="#nuevoJuego" prefHeight="35.0" prefWidth="124.0" style="-fx-background-color: #6297A1;" text="Nuevo Juego">
          <font>
             <Font name="Tw Cen MT Condensed Extra Bold" size="19.0" />
          </font>

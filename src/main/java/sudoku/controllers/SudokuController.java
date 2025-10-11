@@ -1,7 +1,6 @@
 package sudoku.controllers;
 
 import javafx.event.ActionEvent;
-
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -55,35 +54,41 @@ public class SudokuController {
         };
 
         //Generar primer tablero
-        cargarNuevoJuego();
-
-        /*for (int fila = 0; fila < 6; fila++) {
-            for (int col = 0; col < 6; col++) {
-                TextField celda = celdas[fila][col];
-
-                // Crear copias locales (efectivamente finales)
-                int f = fila;
-                int c = col;
-
-                celda.setOnKeyReleased(e -> manejarEntrada(celda, f, c));
-            }
-        }
-        */
-
+        iniciarJuego();
 
     }
 
-    // Generar nuevo tablero
-    @FXML
-    private void cargarNuevoJuego() {
+    private void iniciarJuego() {
         SudokuGenerator generador = new SudokuGenerator();
         int[][] nuevoTablero = generador.generate();
         board.setBoard(nuevoTablero);
         mostrarTablero();
-        //System.out.println(SudokuValidator.isBoardValid(board.getBoard())); innecesario
-
-        lblMensaje.setText("Nuevo Sudoku generado");
+        lblMensaje.setText("Bienvenido al Sudoku 6x6");
     }
+
+    @FXML
+    private void nuevoJuego(ActionEvent event) {
+        Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION);
+        confirmacion.setTitle("Confirmar nuevo juego");
+        confirmacion.setHeaderText(null);
+        confirmacion.setContentText("¿Deseas comenzar un nuevo Sudoku?\nSe perderá el progreso actual.");
+
+        var resultado = confirmacion.showAndWait();
+
+        if (resultado.isPresent() && resultado.get().getButtonData().isDefaultButton()) {
+            SudokuGenerator generador = new SudokuGenerator();
+            int[][] nuevoTablero = generador.generate();
+            board.setBoard(nuevoTablero);
+            mostrarTablero();
+            lblMensaje.setText("Nuevo Sudoku generado");
+        } else {
+            lblMensaje.setText("Continuas con el juego actual.");
+        }
+    }
+
+
+
+
 
 
 
