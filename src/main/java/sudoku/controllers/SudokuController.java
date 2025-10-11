@@ -62,6 +62,7 @@ public class SudokuController {
     }
 
     private void iniciarJuego() {
+
         SudokuGenerator generador = new SudokuGenerator();
         int[][] nuevoTablero = generador.generate();
         board.setBoard(nuevoTablero);
@@ -178,10 +179,53 @@ public class SudokuController {
         }
     }
 
-    // Mostrar ayuda (basica, sin IA)
+    // Mostrar ayuda
     @FXML
     private void pedirAyuda() {
-        mostrarAlerta("Ayuda", "Busca celdas donde solo haya un número posible según las reglas.", null);
+        int[][] tablero = board.getBoard();
+
+        // Buscar una celda vacía
+        for (int fila = 0; fila < 6; fila++) {
+            for (int col = 0; col < 6; col++) {
+                if (tablero[fila][col] == 0) {
+
+                    // Buscar un número válido del 1 al 6
+                    for (int num = 1; num <= 6; num++) {
+                        if (SudokuValidator.isValid(tablero, fila, col, num)) {
+
+                            // Resaltar la celda (solo sugerencia visual)
+                            TextField celda = celdas[fila][col];
+                            celda.setStyle("-fx-background-color: yellow;");
+
+                            // Mostrar mensaje en la etiqueta
+                            lblMensaje.setText("Sugerencia: En la celda (" + (fila + 1) + "," + (col + 1) + ") podrías probar el número " + num);
+
+                            // Mostrar alerta al usuario
+                            Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+                            alerta.setTitle("Sugerencia de ayuda");
+                            alerta.setHeaderText(null);
+                            alerta.setContentText("En la celda (" + (fila + 1) + "," + (col + 1) + ") puedes probar el número " + num + ".");
+                            alerta.showAndWait();
+
+                            // Esperar 3 segundos y luego quitar el color
+                            javafx.animation.PauseTransition pausa = new javafx.animation.PauseTransition(javafx.util.Duration.seconds(3));
+                            pausa.setOnFinished(e -> celda.setStyle(""));
+                            pausa.play();
+
+
+                            return; // Solo una sugerencia por clic
+                        }
+                    }
+                }
+            }
+        }
+
+        // Si no hay celdas vacías o sugerencias
+        Alert sinAyuda = new Alert(Alert.AlertType.INFORMATION);
+        sinAyuda.setTitle("Ayuda");
+        sinAyuda.setHeaderText(null);
+        sinAyuda.setContentText("No hay más sugerencias disponibles.");
+        sinAyuda.showAndWait();
     }
 
     // Mostrar mensajes
