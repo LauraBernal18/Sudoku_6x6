@@ -71,3 +71,25 @@ public class WelcomeView extends Stage {
         private static WelcomeView INSTANCE = null;
     }
 }
+
+
+/* ----------------------------------------
+   Represents the welcome view...
+   Representa la vista de bienvenida (ventana inicial) del juego Sudoku.
+   Esta clase se encarga de cargar y mostrar la ventana de instrucciones antes de comenzar el juego.
+
+   Implements the Singleton pattern...
+    Implementa el patrón Singleton para asegurar que solo exista una instancia
+    de la ventana de bienvenida al mismo tiempo.
+
+   Constructor that loads the FXML...
+    Constructor que carga el archivo FXML correspondiente a la vista de instrucciones
+    y la muestra como escena principal de la aplicación.
+
+   Returns the single instance...
+   Devuelve la instancia única de la clase WelcomeView. Si aún no existe, la crea.
+
+   Static nested class used...
+   Clase interna estática utilizada para implementar el patrón Singleton.
+   Asegura que solo se cree una instancia de la clase durante la ejecución.
+*/
