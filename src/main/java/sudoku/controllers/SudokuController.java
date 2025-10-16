@@ -26,7 +26,7 @@ import javafx.util.Duration;
  * </p>
  *
  * @author Martin Alvarez, Laura Bernal
- * @version 1.0
+ * @version 2.2
  * @since 2025-2
  */
 

@@ -17,7 +17,7 @@ import java.io.IOException;
  * SudokuController. It also implements the Singleton pattern to ensure
  * that only one game window exists at a time.
  *
- * @author Laura Valentina Bernal
+ * @author Laura Bernal
  * @version 1.1
  * @since 2025-2
  * @see sudoku.controllers.SudokuController

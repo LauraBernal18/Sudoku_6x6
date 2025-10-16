@@ -2,14 +2,13 @@ package sudoku.models;
 
 /**
  * Represents the 6x6 Sudoku game board.
- * <p>
+
  * This class stores the Sudoku grid in a 6x6 integer matrix and provides
  * basic getter and setter methods to access and update cell values.
- * </p>
  *
  * @author  Martin Alvarez, Laura Bernal
  * @version 1.2
- * @since   2025-10
+ * @since   2025-2
  */
 
 public class SudokuBoard {

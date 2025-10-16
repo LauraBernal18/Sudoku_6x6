@@ -13,7 +13,7 @@ import java.util.Random;
  *
  * @author  Martin Alvarez, Laura Bernal
  * @version 1.5
- * @since   2025-10
+ * @since   2025-2
  */
 
 public class SudokuGenerator {

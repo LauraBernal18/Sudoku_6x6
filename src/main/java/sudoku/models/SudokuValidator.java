@@ -12,7 +12,7 @@ package sudoku.models;
  *
  * @author  Martin Alvarez,Laura Bernal
  * @version 1.2
- * @since   2025-10
+ * @since   2025-2
  */
 
 public class SudokuValidator {

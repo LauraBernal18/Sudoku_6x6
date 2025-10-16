@@ -16,7 +16,7 @@ import java.io.IOException;
  * Implements the Singleton pattern to ensure that only one instance
  * of the welcome window exists at a time.
  *
- * @author Laura Valentina Bernal
+ * @author Laura Bernal
  * @version 1.1
  * @since 2025-2
  */
