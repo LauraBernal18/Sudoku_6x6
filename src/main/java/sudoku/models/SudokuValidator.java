@@ -2,18 +2,16 @@ package sudoku.models;
 
 /**
  * Provides validation logic for Sudoku 6x6 grids.
- * <p>
+
  * This class ensures that numbers placed on the board
  * follow Sudoku rules: no repeated numbers in any row,
  * column, or 2x3 sub-grid.
- * </p>
- * <p>
+
  * It is used both during puzzle generation and while
  * the player is entering values.
- * </p>
  *
  * @author  Martin Alvarez,Laura Bernal
- * @version 1.0
+ * @version 1.2
  * @since   2025-10
  */
 
@@ -64,10 +62,9 @@ public class SudokuValidator {
 
     /**
      * Checks whether the entire Sudoku board is valid.
-     * <p>
+
      * Ensures there are no duplicate values across rows,
      * columns, or 2x3 sub-grids.
-     * </p>
      *
      * @param board the 6x6 Sudoku board
      * @return {@code true} if the board is valid, {@code false} otherwise

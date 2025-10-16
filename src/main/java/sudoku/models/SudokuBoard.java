@@ -8,7 +8,7 @@ package sudoku.models;
  * </p>
  *
  * @author  Martin Alvarez, Laura Bernal
- * @version 1.0
+ * @version 1.2
  * @since   2025-10
  */
 
@@ -64,10 +64,8 @@ public class SudokuBoard {
 
     /**
      * Replaces the current board with a new one.
-     * <p>
      * This method copies all values from the provided matrix to ensure
      * that the internal state is updated safely.
-     * </p>
      *
      * @param newBoard the new 6x6 integer matrix to replace the current board
      */

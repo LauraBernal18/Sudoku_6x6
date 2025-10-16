@@ -18,8 +18,8 @@ import java.io.IOException;
  * It connects the user interface (FXML) with the logic
  * that opens the main game window.
  *
- * @author Laura Valentina Bernal
- * @version 1.0
+ * @author Martin Alvarez, Laura Bernal
+ * @version 1.2
  * @since 2025-2
  * @see sudoku.views.SudokuView
  */

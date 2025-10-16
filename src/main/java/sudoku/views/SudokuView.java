@@ -18,7 +18,7 @@ import java.io.IOException;
  * that only one game window exists at a time.
  *
  * @author Laura Valentina Bernal
- * @version 1.0
+ * @version 1.1
  * @since 2025-2
  * @see sudoku.controllers.SudokuController
  */

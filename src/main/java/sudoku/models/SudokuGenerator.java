@@ -6,14 +6,13 @@ import java.util.Random;
 
 /**
  * Generates valid Sudoku 6x6 boards and prepares playable puzzles.
- * <p>
+
  * This class is responsible for creating a fully solved Sudoku grid
  * that follows the 6x6 Sudoku rules (2x3 sub-grids) and then removing
  * some cells to form a puzzle that the player can solve.
- * </p>
  *
  * @author  Martin Alvarez, Laura Bernal
- * @version 1.0
+ * @version 1.5
  * @since   2025-10
  */
 
@@ -25,10 +24,9 @@ public class SudokuGenerator {
 
     /**
      * Creates a new Sudoku puzzle.
-     * <p>
+
      * The method first generates a complete valid Sudoku solution,
      * then removes selected cells to create a playable puzzle.
-     * </p>
      *
      * @return a 6x6 integer matrix representing the Sudoku puzzle
      */
@@ -102,10 +100,9 @@ public class SudokuGenerator {
     /**
      * Removes selected cells from the filled Sudoku grid
      * to create a puzzle for the player to solve.
-     * <p>
+
      * The method iterates through each 2x3 block, shuffles cell positions,
      * and keeps only two random numbers per block.
-     * </p>
      *
      * @param board the fully solved 6x6 Sudoku board
      */
