@@ -17,7 +17,7 @@ import java.io.IOException;
  * of the welcome window exists at a time.
  *
  * @author Laura Bernal
- * @version 1.1
+ * @version 1.2
  * @since 2025-2
  */
 
@@ -34,7 +34,7 @@ public class WelcomeView extends Stage {
                 getClass().getResource("/sudoku/fxml/instrucciones-view.fxml")
         );
 
-        //para abrir el archivo, leerlo
+        //to open the file, read it
         Parent root = fxmlLoader.load();
         Scene scene = new Scene(root);
         this.setScene(scene);
@@ -75,21 +75,21 @@ public class WelcomeView extends Stage {
 
 /* ----------------------------------------
    Represents the welcome view...
-   Representa la vista de bienvenida (ventana inicial) del juego Sudoku.
-   Esta clase se encarga de cargar y mostrar la ventana de instrucciones antes de comenzar el juego.
+   Represents the welcome view (initial window) of the Sudoku game.
+   This class is responsible for loading and displaying the instructions window before the game starts.
 
    Implements the Singleton pattern...
-    Implementa el patrón Singleton para asegurar que solo exista una instancia
-    de la ventana de bienvenida al mismo tiempo.
+   Implements the Singleton pattern to ensure that only one instance of the welcome window exists at the same time.
 
    Constructor that loads the FXML...
-    Constructor que carga el archivo FXML correspondiente a la vista de instrucciones
-    y la muestra como escena principal de la aplicación.
+   Constructor that loads the FXML file corresponding to the instructions view and displays
+    it as the main scene of the application.
 
    Returns the single instance...
-   Devuelve la instancia única de la clase WelcomeView. Si aún no existe, la crea.
+   Returns the single instance of the WelcomeView class.
+   If it does not exist yet,
 
-   Static nested class used...
-   Clase interna estática utilizada para implementar el patrón Singleton.
-   Asegura que solo se cree una instancia de la clase durante la ejecución.
+   it creates it.Static nested class used...
+   Static nested class used to implement the Singleton pattern.
+   Ensures that only one instance of the class is created during execution.
 */

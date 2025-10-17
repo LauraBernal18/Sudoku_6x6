@@ -27,7 +27,7 @@ import javafx.util.Duration;
  * </p>
  *
  * @author Martin Alvarez, Laura Bernal
- * @version 2.3
+ * @version 2.4
  * @since 2025-2
  */
 
@@ -65,7 +65,7 @@ public class SudokuController {
      */
     @FXML
     public void initialize() {
-        //Crear el modelo y organizar las celdas
+        //Create the model and organize the cells
         board = new SudokuBoard();
         celdas = new TextField[][] {
                 {cell00, cell01, cell02, cell03, cell04, cell05},
@@ -76,7 +76,7 @@ public class SudokuController {
                 {cell50, cell51, cell52, cell53, cell54, cell55}
         };
 
-        //Generar primer tablero
+        //Generate first board
         iniciarJuego();
 
     }
@@ -104,42 +104,44 @@ public class SudokuController {
 
     @FXML
 private void nuevoJuego(ActionEvent event) {
-    // Crear la alerta de confirmación
+    // Create the confirmation alert
     Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION);
     confirmacion.setTitle("Confirmar nuevo juego");
     confirmacion.setHeaderText(null);
     confirmacion.setContentText("¿Deseas comenzar un nuevo Sudoku?\nSe perderá el progreso actual.");
 
-    // Mostrar la alerta y guardar el botón presionado
+    // Show the alert and save the pressed button
     javafx.scene.control.ButtonType respuesta = confirmacion.showAndWait().orElse(javafx.scene.control.ButtonType.CANCEL);
 
 
-    /*“Muestra la ventana de confirmación (showAndWait()),
-    espera a que el usuario presione un botón (como ACEPTAR o CANCELAR),
-     y guarda el botón que el usuario eligió en la variable respuesta.”
-
-    El metodo showAndWait() devuelve un valor de tipo Optional<ButtonType>.
-    Eso significa que puede o no contener un valor, dependiendo de si el usuario presionó algo.
-
-    Por ejemplo:
-    Si el jugador presiona Aceptar, devuelve ButtonType.OK.
-    Si presiona Cancelar, devuelve ButtonType.CANCEL.
-    Si cierra la ventana sin hacer clic, Optional no tiene valor.
-
-    Por eso se usa el .orElse(ButtonType.CANCEL):
-    “Si no presionó nada, asumir que fue CANCELAR”.*/
+    /*"Displays the confirmation window (showAndWait()),
+    waits for the user to press a button (such as OK or CANCEL),
+    and stores the button that the user chose in the variable response.
+    " The method showAndWait() returns a value of type Optional<ButtonType>.
+    This means that it may or may not contain a value,
+    depending on whether the user pressed something.
+    For example:If the player presses OK,
+    it returns ButtonType.OK.If they press Cancel,
+    it returns ButtonType.CANCEL.If they close the window without clicking,
+    the Optional has no value.
+    That is why .orElse(ButtonType.CANCEL) is used:"If nothing was pressed,
+    assume it was CANCEL.".*/
 
 
-    // Si el usuario presiona ACEPTAR, generar un nuevo tablero
+    // If the user presses ACCEPT, generate a new board
     if (respuesta == javafx.scene.control.ButtonType.OK) {
         SudokuGenerator generador = new SudokuGenerator();
         int[][] nuevoTablero = generador.generate();
         board.setBoard(nuevoTablero);
+
+        // Clean colors
+        limpiarColoresCeldas();
+
         mostrarTablero();
         ayudasDisponibles=3;
         lblMensaje.setText("Nuevo Sudoku generado.");
     }
-    // Si presiona CANCELAR o cierra la ventana, continuar con el mismo juego
+    // If you press CANCEL or close the window, continue with the same game
     else {
         lblMensaje.setText("Continuas con el juego actual.");
     }
@@ -166,7 +168,7 @@ private void nuevoJuego(ActionEvent event) {
                     celda.setEditable(true);
                 }
 
-                //ASIGNAR ESCUCHA DE TECLADO A LAS 36 CELDAS
+                //ASSIGN KEYBOARD LISTENER TO THE 36 CELLS
                 final int f = fila;
                 final int c = col;
 
@@ -197,17 +199,20 @@ private void nuevoJuego(ActionEvent event) {
             int valor = Integer.parseInt(texto);
 
             if (valor < 1 || valor > 6) {
-               /* mostrarAlerta("Número inválido", "Por favor ingresa un número entre 1 y 6.", celda);
-                celda.clear();*/
+
                 AlertBox alertBox = new AlertBox();
                 alertBox.showWarningAlertBox("Número inválido", "Por favor ingresa un número entre 1 y 6.", null);
 
-                // Resaltar celda con error en rojo
+                // Highlight cell with error in red
                 celda.setStyle("-fx-background-color: #ffb3b3; -fx-border-color: red; -fx-border-width: 2;");
 
-                // Esperar 1.5 segundos y limpiar colores
+                // Wait 1.5 seconds and clear colors
                 PauseTransition pausa = new PauseTransition(Duration.seconds(1.5));
-                pausa.setOnFinished(e -> limpiarColoresCeldas());
+                pausa.setOnFinished(e -> {
+                    if (!celda.getStyle().contains("yellow")) {
+                        celda.setStyle("");
+                    }
+                });
                 pausa.play();
 
                 celda.clear();
@@ -219,29 +224,35 @@ private void nuevoJuego(ActionEvent event) {
                 board.setCell(fila, col, valor);
             }
             else {
-                /*mostrarAlerta("Movimiento no válido", "Ese número rompe las reglas del Sudoku.", celda);
-                celda.clear();*/
+
                 AlertBox alertBox = new AlertBox();
                 alertBox.showWarningAlertBox("Movimiento no válido", "Ese número rompe las reglas del Sudoku.", null);
 
                 celda.setStyle("-fx-background-color: #ffb3b3; -fx-border-color: red; -fx-border-width: 2;");
 
                 PauseTransition pausa = new PauseTransition(Duration.seconds(1.5));
-                pausa.setOnFinished(e -> limpiarColoresCeldas());
+                pausa.setOnFinished(e -> {
+                    if (!celda.getStyle().contains("yellow")) {
+                        celda.setStyle("");
+                    }
+                });
                 pausa.play();
 
                 celda.clear();
             }
         } catch (NumberFormatException e) {
-           /* mostrarAlerta("Entrada inválida", "Solo puedes escribir números.", celda);
-            celda.clear();*/
+
             AlertBox alertBox = new AlertBox();
             alertBox.showWarningAlertBox("Entrada inválida", "Solo puedes escribir números.", null);
 
             celda.setStyle("-fx-background-color: #ffb3b3; -fx-border-color: red; -fx-border-width: 2;");
 
             PauseTransition pausa = new PauseTransition(Duration.seconds(1.5));
-            pausa.setOnFinished(ev -> limpiarColoresCeldas());
+            pausa.setOnFinished(ev -> {
+                if (!celda.getStyle().contains("yellow")) {
+                    celda.setStyle("");
+                }
+            });
             pausa.play();
 
             celda.clear();
@@ -260,7 +271,6 @@ private void nuevoJuego(ActionEvent event) {
         for (int[] fila : matriz) {
             for (int valor : fila) {
                 if (valor == 0) {
-                    /*mostrarAlerta("Incompleto", "Aún hay celdas vacías.", null);*/
                     AlertBox alertBox = new AlertBox();
                     alertBox.showWarningAlertBox("Incompleto", "Aún hay celdas vacías.", null);
                     return;
@@ -270,13 +280,11 @@ private void nuevoJuego(ActionEvent event) {
 
         if (SudokuValidator.isBoardValid(matriz)) {
             lblMensaje.setText("¡Felicitaciones! Sudoku correcto.");
-            //mostrarAlerta("Correcto", "¡Felicitaciones! Sudoku completo.", null);
             AlertBox alertBox = new AlertBox();
             alertBox.showAlertBox("Correcto", "¡Felicitaciones! Sudoku completo.", null);
 
         } else {
             lblMensaje.setText("El Sudoku tiene errores.");
-            //mostrarAlerta("Error", "Hay números que no cumplen las reglas.", null);
             AlertBox alertBox = new AlertBox();
             alertBox.showWarningAlertBox("Error", "Hay números que no cumplen las reglas.", null);
         }
@@ -289,7 +297,7 @@ private void nuevoJuego(ActionEvent event) {
      */
     @FXML
     private void pedirAyuda() {
-        // Verificar si aún quedan ayudas disponibles
+        // Check if there are still aids available
         if (ayudasDisponibles <= 0) {
             Alert sinAyuda = new Alert(Alert.AlertType.INFORMATION);
             sinAyuda.setTitle("Ayuda");
@@ -302,25 +310,25 @@ private void nuevoJuego(ActionEvent event) {
 
         int[][] tablero = board.getBoard();
 
-        // Buscar una celda vacía
+        //Find an empty cell
         for (int fila = 0; fila < 6; fila++) {
             for (int col = 0; col < 6; col++) {
                 if (tablero[fila][col] == 0) {
 
-                    // Buscar un número válido del 1 al 6
+                    //Find a valid number from 1 to 6
                     for (int num = 1; num <= 6; num++) {
                         if (SudokuValidator.isValid(tablero, fila, col, num)) {
 
                             ayudasDisponibles--;
 
-                            // Resaltar la celda (solo sugerencia visual)
+                            // Highlight the cell (visual suggestion only)
                             TextField celda = celdas[fila][col];
                             celda.setStyle("-fx-background-color: yellow;");
 
-                            // Mostrar mensaje en la etiqueta
+                            // Show message on the label
                             lblMensaje.setText("Sugerencia: En la celda (" + (fila + 1) + "," + (col + 1) + ") podrías probar el número " + num);
 
-                            // Mostrar alerta al usuario
+                            // Show alert to the user
                             Alert alerta = new Alert(Alert.AlertType.INFORMATION);
                             alerta.setTitle("Sugerencia de ayuda");
                             alerta.setHeaderText(null);
@@ -329,11 +337,6 @@ private void nuevoJuego(ActionEvent event) {
                                                     "Te quedan " + ayudasDisponibles + " ayudas.");
                             alerta.showAndWait();
 
-                            // Esperar 3 segundos y luego quitar el color
-                            /*javafx.animation.PauseTransition pausa = new javafx.animation.PauseTransition(javafx.util.Duration.seconds(3));
-                            pausa.setOnFinished(e -> celda.setStyle(""));
-                            pausa.play();
-                               */
 
                             return; // Solo una sugerencia por clic
                         }
@@ -342,42 +345,14 @@ private void nuevoJuego(ActionEvent event) {
             }
         }
 
-        // Si no hay celdas vacías o sugerencias
+        // If there are no empty cells or suggestions
         Alert sinAyuda = new Alert(Alert.AlertType.INFORMATION);
         sinAyuda.setTitle("Ayuda");
         sinAyuda.setHeaderText(null);
         sinAyuda.setContentText("No hay más sugerencias disponibles.");
         sinAyuda.showAndWait();
     }
-    /*
-    /**
-     * Displays different types of alert messages to the user.
-     * Optionally highlights a cell in red for 1 second if an error is related to that cell.
-     *
-     * @param titulo  Alert window title.
-     * @param mensaje Text message shown in the alert.
-     * @param celda   The text field to highlight (can be null).
-     */
-    /*private void mostrarAlerta(String titulo, String mensaje, TextField celda) {
-        // Si se pasa una celda, resáltala en rojo
-        if (celda != null) {
-            celda.setStyle("-fx-background-color: #ffb3b3; -fx-border-color: red; -fx-border-width: 2;");
-        }
 
-        Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-        alerta.setTitle(titulo);
-        alerta.setHeaderText(null);
-        alerta.setContentText(mensaje);
-        alerta.showAndWait();
-
-        // Después de cerrar la alerta, restaurar el estilo
-        if (celda != null) {
-            // Esperar 1 segundo antes de restaurar el color original
-            PauseTransition pausa = new PauseTransition(Duration.seconds(1));
-            pausa.setOnFinished(e -> celda.setStyle(""));
-            pausa.play();
-        }
-    }*/
 
     /**
      * Displays the game instructions in a pop-up alert window.
@@ -398,11 +373,7 @@ private void nuevoJuego(ActionEvent event) {
             7) Para comenzar una nueva partida, presiona 'Nuevo Juego'.
             """;
 
-        /*Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-        alerta.setTitle("Instrucciones del Sudoku 6x6");
-        alerta.setHeaderText(null);
-        alerta.setContentText(instrucciones);
-        alerta.showAndWait();*/
+
         AlertBox alertBox = new AlertBox();
         alertBox.showAlertBox("Instrucciones del Sudoku 6x6", instrucciones, null);
 
@@ -417,7 +388,8 @@ private void nuevoJuego(ActionEvent event) {
     private void limpiarColoresCeldas() {
         for (int fila = 0; fila < 6; fila++) {
             for (int col = 0; col < 6; col++) {
-                celdas[fila][col].setStyle(""); // Quita cualquier estilo aplicado
+                // Remove any applied style
+                celdas[fila][col].setStyle("");
             }
         }
     }

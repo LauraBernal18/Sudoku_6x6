@@ -33,7 +33,7 @@
       </VBox.margin>
    </HBox>
 
-       <!-- Título -->
+       <!-- Títle-->
     <Label alignment="CENTER" prefHeight="56.0" prefWidth="371.0" style="-fx-background-color: #663f8d; -fx-background-radius: 35;" text="Sudoku 6x6" textFill="WHITE">
       <font>
          <Font name="Century" size="48.0" />
@@ -43,11 +43,11 @@
       </padding>
    </Label>
 
-    <!-- Cuadrícula principal: 2 filas × 3 columnas de bloques -->
+    <!-- Main grid: 2 rows × 3 columns of blocks-->
     <GridPane fx:id="gridPane" alignment="center" prefHeight="420.0" prefWidth="463.0" style="-fx-background-color: #15408F;">
 
-        <!-- Bloques 2x3 -->
-        <!-- Fila 0, Columna 0 -->
+        <!-- 2x3 Blocks -->
+        <!-- Row 0, Column 0-->
         <GridPane hgap="2" style="-fx-border-color: gray; -fx-border-width: 3; -fx-background-color: gray;" vgap="2">
             <TextField fx:id="cell00" alignment="center" prefHeight="60" prefWidth="60" GridPane.columnIndex="0" GridPane.rowIndex="0" />
             <TextField fx:id="cell01" alignment="center" prefHeight="60" prefWidth="60" GridPane.columnIndex="1" GridPane.rowIndex="0" />
@@ -66,7 +66,7 @@
          </rowConstraints>
         </GridPane>
 
-        <!-- Fila 0, Columna 1 -->
+        <!-- Row 0, Column 1-->
         <GridPane hgap="2" style="-fx-border-color: gray; -fx-border-width: 3; -fx-background-color: gray;" vgap="2" GridPane.columnIndex="1">
             <TextField fx:id="cell03" alignment="center" prefHeight="60" prefWidth="60" GridPane.columnIndex="0" GridPane.rowIndex="0" />
             <TextField fx:id="cell04" alignment="center" prefHeight="60" prefWidth="60" GridPane.columnIndex="1" GridPane.rowIndex="0" />
@@ -85,7 +85,7 @@
          </rowConstraints>
         </GridPane>
 
-        <!-- Fila 1, Columna 0 -->
+        <!-- Row 1, Column 0 -->
         <GridPane hgap="2" style="-fx-border-color: gray; -fx-border-width: 3; -fx-background-color: gray;" vgap="2" GridPane.rowIndex="1">
             <TextField fx:id="cell20" alignment="center" prefHeight="60" prefWidth="60" GridPane.columnIndex="0" GridPane.rowIndex="0" />
             <TextField fx:id="cell21" alignment="center" prefHeight="60" prefWidth="60" GridPane.columnIndex="1" GridPane.rowIndex="0" />
@@ -104,7 +104,7 @@
          </rowConstraints>
         </GridPane>
 
-        <!-- Fila 1, Columna 1 -->
+        <!-- Row 1, Column 1-->
         <GridPane hgap="2" style="-fx-border-color: gray; -fx-border-width: 3; -fx-background-color: gray;" vgap="2" GridPane.columnIndex="1" GridPane.rowIndex="1">
             <TextField fx:id="cell23" alignment="center" prefHeight="60" prefWidth="60" GridPane.columnIndex="0" GridPane.rowIndex="0" />
             <TextField fx:id="cell24" alignment="center" prefHeight="60" prefWidth="60" GridPane.columnIndex="1" GridPane.rowIndex="0" />
@@ -123,7 +123,7 @@
          </rowConstraints>
         </GridPane>
 
-        <!-- Fila 2, Columna 0 -->
+        <!-- Row 2, Column 0-->
         <GridPane hgap="2" style="-fx-border-color: gray; -fx-border-width: 3; -fx-background-color: gray;" vgap="2" GridPane.rowIndex="2">
             <TextField fx:id="cell40" alignment="center" prefHeight="60" prefWidth="60" GridPane.columnIndex="0" GridPane.rowIndex="0" />
             <TextField fx:id="cell41" alignment="center" prefHeight="60" prefWidth="60" GridPane.columnIndex="1" GridPane.rowIndex="0" />
@@ -142,7 +142,7 @@
          </rowConstraints>
         </GridPane>
 
-        <!-- Fila 2, Columna 1 -->
+        <!-- Row 2, Column 1-->
         <GridPane hgap="2" style="-fx-border-color: gray; -fx-border-width: 3; -fx-background-color: gray;" vgap="2" GridPane.columnIndex="1" GridPane.rowIndex="2">
             <TextField fx:id="cell43" alignment="center" prefHeight="60" prefWidth="60" GridPane.columnIndex="0" GridPane.rowIndex="0" />
             <TextField fx:id="cell44" alignment="center" prefHeight="60" prefWidth="60" GridPane.columnIndex="1" GridPane.rowIndex="0" />
@@ -177,7 +177,7 @@
       </VBox.margin>
     </GridPane>
 
-    <!-- Botones -->
+    <!-- Buttons-->
     <HBox alignment="center" prefHeight="50.0" prefWidth="570.0" spacing="15">
         <Button fx:id="btnNuevoJuego" onAction="#nuevoJuego" prefHeight="35.0" prefWidth="124.0" style="-fx-background-color: #15408F; -fx-background-radius: 45;" text="Nuevo Juego" textFill="WHITE">
          <font>
@@ -208,7 +208,7 @@
       </VBox.margin>
     </HBox>
 
-    <!-- Mensajes -->
+    <!-- Messages-->
     <Label fx:id="lblMensaje" alignment="center" prefHeight="56.0" prefWidth="583.0" style="-fx-background-color: #663f8d;" text="Bienvenido al Sudoku 6x6" textFill="WHITE">
       <font>
          <Font name="Century" size="16.0" />

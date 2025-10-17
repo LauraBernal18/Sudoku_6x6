@@ -12,7 +12,7 @@ import java.util.Random;
  * some cells to form a puzzle that the player can solve.
  *
  * @author  Martin Alvarez, Laura Bernal
- * @version 1.5
+ * @version 1.6
  * @since   2025-2
  */
 
@@ -117,18 +117,18 @@ public class SudokuGenerator {
      */
 
     private void removeCellsForPuzzle(int[][] board) {
-        // Recorre los bloques 2x3
+        // Move through the 2x3 blocks
         for (int startRow = 0; startRow < 6; startRow += 2) {
             for (int startCol = 0; startCol < 6; startCol += 3) {
 
-                // Guarda todas las posiciones (r, c) de este bloque
+                // Save all the positions (r, c) of this block
                 ArrayList<int[]> positions = new ArrayList<>();
                 for (int r = startRow; r < startRow + 2; r++) {
                     for (int c = startCol; c < startCol + 3; c++) {
                         positions.add(new int[]{r, c});
                     }
                 }
-                // Mezcla las posiciones
+                // Mix the positions
                 for (int i = 0; i < positions.size(); i++) {
                     int randomIndex = random.nextInt(positions.size());
                     int[] temp = positions.get(i);
@@ -136,10 +136,10 @@ public class SudokuGenerator {
                     positions.set(randomIndex, temp);
                 }
 
-                // Deja solo dos números
+                // Leave only two numbers
                 for (int i = 2; i < positions.size(); i++) {
                     int[] pos = positions.get(i);
-                    board[pos[0]][pos[1]] = 0; // borrar (dejar vacío)
+                    board[pos[0]][pos[1]] = 0; // erase (leave blank)
                 }
             }
         }
