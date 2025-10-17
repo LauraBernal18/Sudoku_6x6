@@ -27,7 +27,7 @@ import javafx.util.Duration;
  * </p>
  *
  * @author Martin Alvarez, Laura Bernal
- * @version 2.2
+ * @version 2.3
  * @since 2025-2
  */
 
@@ -201,6 +201,16 @@ private void nuevoJuego(ActionEvent event) {
                 AlertBox alertBox = new AlertBox();
                 alertBox.showWarningAlertBox("Número inválido", "Por favor ingresa un número entre 1 y 6.", null);
 
+                // Resaltar celda con error en rojo
+                celda.setStyle("-fx-background-color: #ffb3b3; -fx-border-color: red; -fx-border-width: 2;");
+
+                // Esperar 1.5 segundos y limpiar colores
+                PauseTransition pausa = new PauseTransition(Duration.seconds(1.5));
+                pausa.setOnFinished(e -> limpiarColoresCeldas());
+                pausa.play();
+
+                celda.clear();
+
                 return;
             }
 
@@ -212,12 +222,28 @@ private void nuevoJuego(ActionEvent event) {
                 celda.clear();*/
                 AlertBox alertBox = new AlertBox();
                 alertBox.showWarningAlertBox("Movimiento no válido", "Ese número rompe las reglas del Sudoku.", null);
+
+                celda.setStyle("-fx-background-color: #ffb3b3; -fx-border-color: red; -fx-border-width: 2;");
+
+                PauseTransition pausa = new PauseTransition(Duration.seconds(1.5));
+                pausa.setOnFinished(e -> limpiarColoresCeldas());
+                pausa.play();
+
+                celda.clear();
             }
         } catch (NumberFormatException e) {
            /* mostrarAlerta("Entrada inválida", "Solo puedes escribir números.", celda);
             celda.clear();*/
             AlertBox alertBox = new AlertBox();
             alertBox.showWarningAlertBox("Entrada inválida", "Solo puedes escribir números.", null);
+
+            celda.setStyle("-fx-background-color: #ffb3b3; -fx-border-color: red; -fx-border-width: 2;");
+
+            PauseTransition pausa = new PauseTransition(Duration.seconds(1.5));
+            pausa.setOnFinished(ev -> limpiarColoresCeldas());
+            pausa.play();
+
+            celda.clear();
         }
     }
 
@@ -382,10 +408,11 @@ private void nuevoJuego(ActionEvent event) {
 
     }
 
+
     /**
      * Restores the original color (white) to all cells.
-     * Used when starting a new game or when you want to clear visual aids.
-     */
+     * Used when starting a new game or when you want to clear visual aids.*/
+
     private void limpiarColoresCeldas() {
         for (int fila = 0; fila < 6; fila++) {
             for (int col = 0; col < 6; col++) {
