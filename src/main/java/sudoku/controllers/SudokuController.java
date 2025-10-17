@@ -136,6 +136,7 @@ private void nuevoJuego(ActionEvent event) {
         int[][] nuevoTablero = generador.generate();
         board.setBoard(nuevoTablero);
         mostrarTablero();
+        ayudasDisponibles=3;
         lblMensaje.setText("Nuevo Sudoku generado.");
     }
     // Si presiona CANCELAR o cierra la ventana, continuar con el mismo juego
@@ -325,7 +326,7 @@ private void nuevoJuego(ActionEvent event) {
                             alerta.setHeaderText(null);
                             alerta.setContentText("En la celda (" + (fila + 1) + "," + (col + 1) +
                                                     ") puedes probar el número " + num + ".\n" +
-                                                    "Te quedan" + ayudasDisponibles + "ayudas.");
+                                                    "Te quedan " + ayudasDisponibles + " ayudas.");
                             alerta.showAndWait();
 
                             // Esperar 3 segundos y luego quitar el color
