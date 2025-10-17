@@ -31,7 +31,7 @@ public class WelcomeView extends Stage {
      */
     public WelcomeView() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(
-                getClass().getResource("/sudoku/instrucciones-view.fxml")
+                getClass().getResource("/sudoku/fxml/instrucciones-view.fxml")
         );
 
         //para abrir el archivo, leerlo

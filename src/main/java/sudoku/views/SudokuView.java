@@ -1,6 +1,5 @@
 package sudoku.views;
 
-import sudoku.controllers.SudokuController;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -24,7 +23,7 @@ import java.io.IOException;
  */
 public class SudokuView extends Stage {
 
-    private SudokuController sudokuController;
+
 
 
     /**
@@ -35,32 +34,15 @@ public class SudokuView extends Stage {
      */
     public SudokuView() throws IOException {
         FXMLLoader loader = new FXMLLoader(
-                getClass().getResource("/sudoku/sudoku-view.fxml")
+                getClass().getResource("/sudoku/fxml/sudoku-view.fxml")
         );
         Parent root = loader.load();
-        this.sudokuController = loader.getController();
 
         Scene scene = new Scene(root);
         this.setScene(scene);
         this.setTitle("Sudoku 6x6");
         this.show();
-    }
 
-
-
-
-
-    /**
-     * Returns the  SudokuController instance associated with this view.
-
-     * This allows external classes (like sudoku.controllers.WelcomeController)
-     * to access the controller and communicate with the game logic if needed.
-     *
-     * @return the controller instance that manages the Sudoku board.
-     */
-    public SudokuController getSudokuController() {
-
-        return sudokuController;
     }
 
     /**
