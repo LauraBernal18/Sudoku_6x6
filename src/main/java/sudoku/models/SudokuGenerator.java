@@ -47,10 +47,19 @@ public class SudokuGenerator {
      */
 
     private boolean fillBoard(int[][] board) {
+        Random random = new Random();
+
         for (int row = 0; row < 6; row++) {
             for (int col = 0; col < 6; col++) {
                 if (board[row][col] == 0) {
+
+                    int[] numeros = {1,2,3,4,5,6};
+
+
                     for (int num = 1; num <= 6; num++) {
+                        int index = random.nextInt(6);
+                        num = numeros[index];
+
                         if (isValid(board, row, col, num)) {
                             board[row][col] = num;
                             if (fillBoard(board))
@@ -119,9 +128,15 @@ public class SudokuGenerator {
                         positions.add(new int[]{r, c});
                     }
                 }
+                // Mezcla las posiciones
+                for (int i = 0; i < positions.size(); i++) {
+                    int randomIndex = random.nextInt(positions.size());
+                    int[] temp = positions.get(i);
+                    positions.set(i, positions.get(randomIndex));
+                    positions.set(randomIndex, temp);
+                }
 
-                // Mezcla las posiciones y deja solo dos números
-                Collections.shuffle(positions);
+                // Deja solo dos números
                 for (int i = 2; i < positions.size(); i++) {
                     int[] pos = positions.get(i);
                     board[pos[0]][pos[1]] = 0; // borrar (dejar vacío)
