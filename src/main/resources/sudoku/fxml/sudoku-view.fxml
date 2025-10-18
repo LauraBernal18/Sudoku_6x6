@@ -14,12 +14,12 @@
 <VBox alignment="center" prefHeight="663.0" prefWidth="654.0" spacing="15.0" stylesheets="@../styles/sudoku.css" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sudoku.controllers.SudokuController">
    <HBox alignment="TOP_RIGHT" prefHeight="40.0" prefWidth="200.0">
       <children>
-         <Label text="Como jugar" textFill="WHITE">
+         <Label alignment="CENTER" prefHeight="25.0" prefWidth="122.0" style="-fx-background-color: #663f8d; -fx-background-radius: 25;" text="Como jugar" textFill="WHITE">
             <font>
-               <Font name="Century" size="15.0" />
+               <Font name="Comic Sans MS" size="16.0" />
             </font>
             <HBox.margin>
-               <Insets right="8.0" top="5.0" />
+               <Insets right="-15.0" top="3.0" />
             </HBox.margin>
          </Label>
          <Button mnemonicParsing="false" onAction="#onActionHowToPlayButton" style="-fx-background-color: white; -fx-background-radius: 50;" text="?">
@@ -209,7 +209,7 @@
     </HBox>
 
     <!-- Messages-->
-    <Label fx:id="lblMessage" alignment="center" prefHeight="56.0" prefWidth="583.0" style="-fx-background-color: #663f8d;" text="Bienvenido al Sudoku 6x6" textFill="WHITE">
+    <Label fx:id="lblMessage" alignment="center" prefHeight="56.0" prefWidth="583.0" style="-fx-background-color: #663f8d; -fx-background-radius: 25;" text="Bienvenido al Sudoku 6x6" textFill="WHITE">
       <font>
          <Font name="Century" size="16.0" />
       </font>
