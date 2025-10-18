@@ -11,7 +11,7 @@ package sudoku.models;
  * the player is entering values.
  *
  * @author  Martin Alvarez,Laura Bernal
- * @version 1.2
+ * @version 1.3
  * @since   2025-2
  */
 
@@ -25,28 +25,28 @@ public class SudokuValidator {
      * @param row   the target row index (0–5)
      * @param col   the target column index (0–5)
      * @param num   the number to validate (1–6)
-     * @return {@code true} if the number is valid, {@code false} otherwise
+     * @return true if the number is valid, false otherwise
      */
 
     public static boolean isValid(int[][] board, int row, int col, int num) {
 
-        // Verificar si el número ya está en la fila
+        // Check if the number is already in the row
         for (int c = 0; c < 6; c++) {
             if (board[row][c] == num) {
                 return false;
             }
         }
 
-        // Verificar si el número ya está en la columna
+        // Check if the number is already in the column
         for (int r = 0; r < 6; r++) {
             if (board[r][col] == num) {
                 return false;
             }
         }
 
-        // Verificar el bloque 2x3
-        int startRow = (row / 2) * 2; // fila de inicio del bloque
-        int startCol = (col / 3) * 3; // columna de inicio del bloque
+        // Check the 2x3 block
+        int startRow = (row / 2) * 2; // block starting row
+        int startCol = (col / 3) * 3; // block start column
 
         for (int r = startRow; r < startRow + 2; r++) {
             for (int c = startCol; c < startCol + 3; c++) {
@@ -56,7 +56,7 @@ public class SudokuValidator {
             }
         }
 
-        return true; // El número cumple todas las reglas
+        return true; // The number meets all the rules
     }
 
 
@@ -74,16 +74,16 @@ public class SudokuValidator {
         for (int row = 0; row < 6; row++) {
             for (int col = 0; col < 6; col++) {
                 int num = board[row][col];
-                if (num != 0) { // Si hay un número en la celda
-                    // Borra temporalmente el número para verificar
+                if (num != 0) { // If there is a number in the cell
+                    // Temporarily delete the number to verify
                     board[row][col] = 0;
-                    // Comprueba si sigue siendo válido
+                    // Check if it is still valid
                     if (!isValid(board, row, col, num)) {
-                        // Restaura y devuelve false
+                        //Restores and returns false
                         board[row][col] = num;
                         return false;
                     }
-                    // Restaura el número
+                    // Restore the number
                     board[row][col] = num;
                 }
             }

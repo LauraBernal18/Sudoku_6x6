@@ -1,0 +1,5 @@
+module:sudoku
+sudoku
+sudoku.controllers
+sudoku.models
+sudoku.views

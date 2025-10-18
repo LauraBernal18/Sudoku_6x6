@@ -1,7 +1,6 @@
 package sudoku.models;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Random;
 
 /**
@@ -12,7 +11,7 @@ import java.util.Random;
  * some cells to form a puzzle that the player can solve.
  *
  * @author  Martin Alvarez, Laura Bernal
- * @version 1.5
+ * @version 1.6
  * @since   2025-2
  */
 
@@ -43,14 +42,23 @@ public class SudokuGenerator {
      * Sudoku 6x6 rules (no repetition in row, column, or 2x3 box).
      *
      * @param board the 6x6 board to fill
-     * @return {@code true} if the board was successfully filled, otherwise {@code false}
+     * @return true if the board was successfully filled, otherwise false
      */
 
     private boolean fillBoard(int[][] board) {
+        Random random = new Random();
+
         for (int row = 0; row < 6; row++) {
             for (int col = 0; col < 6; col++) {
                 if (board[row][col] == 0) {
+
+                    int[] numbers = {1,2,3,4,5,6};
+
+
                     for (int num = 1; num <= 6; num++) {
+                        int index = random.nextInt(6);
+                        num = numbers[index];
+
                         if (isValid(board, row, col, num)) {
                             board[row][col] = num;
                             if (fillBoard(board))
@@ -73,7 +81,7 @@ public class SudokuGenerator {
      * @param row   the row index (0–5)
      * @param col   the column index (0–5)
      * @param num   the number to validate (1–6)
-     * @return {@code true} if the number can be placed, otherwise {@code false}
+     * @return true if the number can be placed, otherwise false
      */
 
     private boolean isValid(int[][] board, int row, int col, int num) {
@@ -108,23 +116,29 @@ public class SudokuGenerator {
      */
 
     private void removeCellsForPuzzle(int[][] board) {
-        // Recorre los bloques 2x3
+        // Move through the 2x3 blocks
         for (int startRow = 0; startRow < 6; startRow += 2) {
             for (int startCol = 0; startCol < 6; startCol += 3) {
 
-                // Guarda todas las posiciones (r, c) de este bloque
+                // Save all the positions (r, c) of this block
                 ArrayList<int[]> positions = new ArrayList<>();
                 for (int r = startRow; r < startRow + 2; r++) {
                     for (int c = startCol; c < startCol + 3; c++) {
                         positions.add(new int[]{r, c});
                     }
                 }
+                // Mix the positions
+                for (int i = 0; i < positions.size(); i++) {
+                    int randomIndex = random.nextInt(positions.size());
+                    int[] temp = positions.get(i);
+                    positions.set(i, positions.get(randomIndex));
+                    positions.set(randomIndex, temp);
+                }
 
-                // Mezcla las posiciones y deja solo dos números
-                Collections.shuffle(positions);
+                // Leave only two numbers
                 for (int i = 2; i < positions.size(); i++) {
                     int[] pos = positions.get(i);
-                    board[pos[0]][pos[1]] = 0; // borrar (dejar vacío)
+                    board[pos[0]][pos[1]] = 0; // erase (leave blank)
                 }
             }
         }

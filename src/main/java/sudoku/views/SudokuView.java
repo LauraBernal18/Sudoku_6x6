@@ -17,13 +17,11 @@ import java.io.IOException;
  * that only one game window exists at a time.
  *
  * @author Laura Bernal
- * @version 1.1
+ * @version 1.2
  * @since 2025-2
  * @see sudoku.controllers.SudokuController
  */
 public class SudokuView extends Stage {
-
-
 
 
     /**

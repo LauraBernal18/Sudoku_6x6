@@ -39,20 +39,3 @@ public class Main extends Application {
     }
 }
 
-
-/* -----------------------
-   Main class of the Sudoku application.
-   Clase principal de la aplicación Sudoku.
-
-   This class serves as the entry point...
-   Esta clase actúa como punto de entrada del programa e inicializa
-   la aplicación JavaFX. Lanza la ventana inicial del juego
-   mediante la clase WelcomeView, que muestra la pantalla de instrucciones.
-
-   The main entry point for all JavaFX applications.
-   → Punto de entrada principal para todas las aplicaciones JavaFX.
-
-   This method is automatically executed...
-   → Este metodo se ejecuta automáticamente cuando el programa inicia.
-     Carga y muestra la ventana de bienvenida (WelcomeView).
-*/

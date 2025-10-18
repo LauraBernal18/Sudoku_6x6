@@ -7,14 +7,14 @@ package sudoku.models;
  * basic getter and setter methods to access and update cell values.
  *
  * @author  Martin Alvarez, Laura Bernal
- * @version 1.2
+ * @version 1.3
  * @since   2025-2
  */
 
 public class SudokuBoard {
 
     /** Two-dimensional array that stores the Sudoku grid values (6x6). */
-    private int[][] board; // tablero 6x6
+    private int[][] board; // 6x6 board
 
     public SudokuBoard() {
 
