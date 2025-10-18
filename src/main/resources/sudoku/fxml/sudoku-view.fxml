@@ -179,7 +179,7 @@
 
     <!-- Buttons-->
     <HBox alignment="center" prefHeight="50.0" prefWidth="570.0" spacing="15">
-        <Button fx:id="btnNuevoJuego" onAction="#nuevoJuego" prefHeight="35.0" prefWidth="124.0" style="-fx-background-color: #15408F; -fx-background-radius: 45;" text="Nuevo Juego" textFill="WHITE">
+        <Button fx:id="btnNewGame" onAction="#newGame" prefHeight="35.0" prefWidth="124.0" style="-fx-background-color: #15408F; -fx-background-radius: 45;" text="Nuevo Juego" textFill="WHITE">
          <font>
             <Font name="Comic Sans MS" size="16.0" />
          </font>
@@ -189,7 +189,7 @@
          <HBox.margin>
             <Insets />
          </HBox.margin></Button>
-        <Button fx:id="btnVerificar" onAction="#verificarSudoku" prefHeight="35.0" prefWidth="96.0" style="-fx-background-color: #15408F; -fx-background-radius: 45;" text="Verificar" textAlignment="CENTER" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">
+        <Button fx:id="btnVerify" onAction="#verifySudoku" prefHeight="35.0" prefWidth="96.0" style="-fx-background-color: #15408F; -fx-background-radius: 45;" text="Verificar" textAlignment="CENTER" textFill="WHITE" textOverrun="CENTER_ELLIPSIS">
          <padding>
             <Insets top="5.0" />
          </padding>
@@ -199,7 +199,7 @@
          <HBox.margin>
             <Insets left="10.0" right="10.0" />
          </HBox.margin></Button>
-        <Button fx:id="btnAyuda" onAction="#pedirAyuda" prefHeight="35.0" prefWidth="90.0" style="-fx-background-color: #663f8d; -fx-background-radius: 45;" text="Ayuda" textFill="WHITE">
+        <Button fx:id="btnHelp" onAction="#askForHelp" prefHeight="35.0" prefWidth="90.0" style="-fx-background-color: #663f8d; -fx-background-radius: 45;" text="Ayuda" textFill="WHITE">
          <font>
             <Font name="Comic Sans MS" size="16.0" />
          </font></Button>
@@ -209,7 +209,7 @@
     </HBox>
 
     <!-- Messages-->
-    <Label fx:id="lblMensaje" alignment="center" prefHeight="56.0" prefWidth="583.0" style="-fx-background-color: #663f8d;" text="Bienvenido al Sudoku 6x6" textFill="WHITE">
+    <Label fx:id="lblMessage" alignment="center" prefHeight="56.0" prefWidth="583.0" style="-fx-background-color: #663f8d;" text="Bienvenido al Sudoku 6x6" textFill="WHITE">
       <font>
          <Font name="Century" size="16.0" />
       </font>

@@ -3,15 +3,9 @@ package sudoku.controllers;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.layout.GridPane;
-import sudoku.models.SudokuBoard;
-import sudoku.models.SudokuGenerator;
-import sudoku.models.SudokuValidator;
-import sudoku.models.AlertBox;
+import sudoku.models.*;
 
 import javafx.scene.input.KeyEvent;
 
@@ -21,10 +15,9 @@ import javafx.util.Duration;
 /**
  * Controller class responsible for handling all user interactions
  * and managing the logic for the Sudoku 6x6 game.
- * <p>
+
  * It connects the user interface (FXML) with the model classes
- * {@link SudokuBoard}, {@link SudokuGenerator}, and {@link SudokuValidator}.
- * </p>
+ * SudokuBoard, SudokuGenerator, SudokuValidator.
  *
  * @author Martin Alvarez, Laura Bernal
  * @version 2.4
@@ -34,7 +27,9 @@ import javafx.util.Duration;
 
 public class SudokuController {
 
-    private int ayudasDisponibles = 3;
+    private int availableAids = 3;
+    private final IAlertBox alertBox = new AlertBox();
+
 
     /** Main grid pane of the Sudoku board. */
     @FXML private GridPane gridPane;
@@ -48,16 +43,15 @@ public class SudokuController {
     @FXML private TextField cell50, cell51, cell52, cell53, cell54, cell55;
 
     /** Interface buttons and labels. */
-    @FXML private Button btnNuevoJuego;
-    @FXML private Button btnVerificar;
-    @FXML private Button btnAyuda;
-    @FXML private Label lblMensaje;
-    // @FXML private TextArea txtInstrucciones;
+    @FXML private Button btnNewGame;
+    @FXML private Button btnVerify;
+    @FXML private Button btnHelp;
+    @FXML private Label lblMessage;
 
     /** The logical Sudoku board model. */
     private SudokuBoard board;
     /** Matrix of text fields mapped to board positions. */
-    private TextField[][] celdas;
+    private TextField[][] cells;
 
     /**
      * Initializes the controller, creates the board model,
@@ -67,7 +61,7 @@ public class SudokuController {
     public void initialize() {
         //Create the model and organize the cells
         board = new SudokuBoard();
-        celdas = new TextField[][] {
+        cells = new TextField[][] {
                 {cell00, cell01, cell02, cell03, cell04, cell05},
                 {cell10, cell11, cell12, cell13, cell14, cell15},
                 {cell20, cell21, cell22, cell23, cell24, cell25},
@@ -77,7 +71,7 @@ public class SudokuController {
         };
 
         //Generate first board
-        iniciarJuego();
+        startGame();
 
     }
 
@@ -85,13 +79,13 @@ public class SudokuController {
      * Starts a new Sudoku game when the application first loads.
      * It generates a new random board and displays it.
      */
-    private void iniciarJuego() {
+    private void startGame() {
 
-        SudokuGenerator generador = new SudokuGenerator();
-        int[][] nuevoTablero = generador.generate();
-        board.setBoard(nuevoTablero);
-        mostrarTablero();
-        lblMensaje.setText("Bienvenido al Sudoku 6x6");
+        SudokuGenerator generator = new SudokuGenerator();
+        int[][] newBoard = generator.generate();
+        board.setBoard(newBoard);
+        showBoard();
+        lblMessage.setText("Bienvenido al Sudoku 6x6");
     }
 
 
@@ -103,15 +97,15 @@ public class SudokuController {
      */
 
     @FXML
-private void nuevoJuego(ActionEvent event) {
+private void newGame(ActionEvent event) {
     // Create the confirmation alert
-    Alert confirmacion = new Alert(Alert.AlertType.CONFIRMATION);
-    confirmacion.setTitle("Confirmar nuevo juego");
-    confirmacion.setHeaderText(null);
-    confirmacion.setContentText("¿Deseas comenzar un nuevo Sudoku?\nSe perderá el progreso actual.");
+    Alert confirmation = new Alert(Alert.AlertType.CONFIRMATION);
+    confirmation.setTitle("Confirmar nuevo juego");
+    confirmation.setHeaderText(null);
+    confirmation.setContentText("¿Deseas comenzar un nuevo Sudoku?\nSe perderá el progreso actual.");
 
     // Show the alert and save the pressed button
-    javafx.scene.control.ButtonType respuesta = confirmacion.showAndWait().orElse(javafx.scene.control.ButtonType.CANCEL);
+    ButtonType answer = confirmation.showAndWait().orElse(ButtonType.CANCEL);
 
 
     /*"Displays the confirmation window (showAndWait()),
@@ -129,21 +123,21 @@ private void nuevoJuego(ActionEvent event) {
 
 
     // If the user presses ACCEPT, generate a new board
-    if (respuesta == javafx.scene.control.ButtonType.OK) {
-        SudokuGenerator generador = new SudokuGenerator();
-        int[][] nuevoTablero = generador.generate();
-        board.setBoard(nuevoTablero);
+    if (answer == ButtonType.OK) {
+        SudokuGenerator generator = new SudokuGenerator();
+        int[][] newBoard = generator.generate();
+        board.setBoard(newBoard);
 
         // Clean colors
-        limpiarColoresCeldas();
+        clearCellColors();
 
-        mostrarTablero();
-        ayudasDisponibles=3;
-        lblMensaje.setText("Nuevo Sudoku generado.");
+        showBoard();
+        availableAids =3;
+        lblMessage.setText("Nuevo Sudoku generado.");
     }
     // If you press CANCEL or close the window, continue with the same game
     else {
-        lblMensaje.setText("Continuas con el juego actual.");
+        lblMessage.setText("Continuas con el juego actual.");
     }
 }
 
@@ -151,31 +145,32 @@ private void nuevoJuego(ActionEvent event) {
      * Displays the Sudoku board in the text fields.
      * Fills in the generated numbers and enables event handling for editable cells.
      */
-    private void mostrarTablero() {
+    private void showBoard() {
         int[][] matriz = board.getBoard();
 
-        for (int fila = 0; fila < 6; fila++) {
+        for (int row = 0; row < 6; row++) {
             for (int col = 0; col < 6; col++) {
-                TextField celda = celdas[fila][col];
-                int valor = matriz[fila][col];
+                TextField cell = cells[row][col];
+                int value = matriz[row][col];
 
-                if (valor != 0) {
-                    celda.setText(String.valueOf(valor));
-                    celda.setEditable(false);
+                if (value != 0) {
+                    cell.setText(String.valueOf(value));
+                    cell.setStyle("-fx-background-color: #D3D3D3;");
+                    cell.setEditable(false);
                 }
                 else {
-                    celda.setText("");
-                    celda.setEditable(true);
+                    cell.setText("");
+                    cell.setEditable(true);
                 }
 
                 //ASSIGN KEYBOARD LISTENER TO THE 36 CELLS
-                final int f = fila;
+                final int f = row;
                 final int c = col;
 
-                celda.setOnKeyReleased(new EventHandler<KeyEvent>() {
+                cell.setOnKeyReleased(new EventHandler<KeyEvent>() {
                     @Override
                     public void handle(KeyEvent event){
-                        manejarEntrada(celda,f,c);
+                        controlEntrance(cell,f,c);
                     }
                 });
 
@@ -188,74 +183,76 @@ private void nuevoJuego(ActionEvent event) {
      * Handles user input for each Sudoku cell, validating numbers
      * and ensuring they follow Sudoku rules.
      *
-     * @param celda TextField where the user typed.
-     * @param fila  Row index of the cell.
+     * @param cell TextField where the user typed.
+     * @param row  Row index of the cell.
      * @param col   Column index of the cell.
      */
-    private void manejarEntrada(TextField celda, int fila, int col) {
-        String texto = celda.getText();
+    private void controlEntrance(TextField cell, int row, int col) {
+        String text = cell.getText();
+
+        if (text.isEmpty()) {
+            board.setCell(row, col, 0);
+            return; // evita mostrar alertas innecesarias
+        }
 
         try {
-            int valor = Integer.parseInt(texto);
+            int value = Integer.parseInt(text);
 
-            if (valor < 1 || valor > 6) {
+            if (value < 1 || value > 6) {
 
-                AlertBox alertBox = new AlertBox();
                 alertBox.showWarningAlertBox("Número inválido", "Por favor ingresa un número entre 1 y 6.", null);
 
                 // Highlight cell with error in red
-                celda.setStyle("-fx-background-color: #ffb3b3; -fx-border-color: red; -fx-border-width: 2;");
+                cell.setStyle("-fx-background-color: #ffb3b3; -fx-border-color: red; -fx-border-width: 2;");
 
                 // Wait 1.5 seconds and clear colors
-                PauseTransition pausa = new PauseTransition(Duration.seconds(1.5));
-                pausa.setOnFinished(e -> {
-                    if (!celda.getStyle().contains("yellow")) {
-                        celda.setStyle("");
+                PauseTransition pause = new PauseTransition(Duration.seconds(1.5));
+                pause.setOnFinished(e -> {
+                    if (!cell.getStyle().contains("yellow")) {
+                        cell.setStyle("");
                     }
                 });
-                pausa.play();
+                pause.play();
 
-                celda.clear();
+                cell.clear();
 
                 return;
             }
 
-            if (SudokuValidator.isValid(board.getBoard(), fila, col, valor)) {
-                board.setCell(fila, col, valor);
+            if (SudokuValidator.isValid(board.getBoard(), row, col, value)) {
+                board.setCell(row, col, value);
             }
             else {
 
-                AlertBox alertBox = new AlertBox();
                 alertBox.showWarningAlertBox("Movimiento no válido", "Ese número rompe las reglas del Sudoku.", null);
 
-                celda.setStyle("-fx-background-color: #ffb3b3; -fx-border-color: red; -fx-border-width: 2;");
+                cell.setStyle("-fx-background-color: #ffb3b3; -fx-border-color: red; -fx-border-width: 2;");
 
-                PauseTransition pausa = new PauseTransition(Duration.seconds(1.5));
-                pausa.setOnFinished(e -> {
-                    if (!celda.getStyle().contains("yellow")) {
-                        celda.setStyle("");
+                PauseTransition pause = new PauseTransition(Duration.seconds(1.5));
+                pause.setOnFinished(e -> {
+                    if (!cell.getStyle().contains("yellow")) {
+                        cell.setStyle("");
                     }
                 });
-                pausa.play();
+                pause.play();
 
-                celda.clear();
+                cell.clear();
             }
         } catch (NumberFormatException e) {
 
-            AlertBox alertBox = new AlertBox();
             alertBox.showWarningAlertBox("Entrada inválida", "Solo puedes escribir números.", null);
 
-            celda.setStyle("-fx-background-color: #ffb3b3; -fx-border-color: red; -fx-border-width: 2;");
+            cell.setStyle("-fx-background-color: #ffb3b3; -fx-border-color: red; -fx-border-width: 2;");
 
-            PauseTransition pausa = new PauseTransition(Duration.seconds(1.5));
-            pausa.setOnFinished(ev -> {
-                if (!celda.getStyle().contains("yellow")) {
-                    celda.setStyle("");
+            PauseTransition pause = new PauseTransition(Duration.seconds(1.5));
+            pause.setOnFinished(ev -> {
+                if (!cell.getStyle().contains("yellow")) {
+                    cell.setStyle("");
                 }
             });
-            pausa.play();
+            pause.play();
 
-            celda.clear();
+            cell.clear();
         }
     }
 
@@ -265,27 +262,24 @@ private void nuevoJuego(ActionEvent event) {
      * @param event Action event triggered by the "Verify" button.
      */
     @FXML
-    public void verificarSudoku(ActionEvent event) {
-        int[][] matriz = board.getBoard();
+    public void verifySudoku(ActionEvent event) {
+        int[][] matrix = board.getBoard();
 
-        for (int[] fila : matriz) {
-            for (int valor : fila) {
-                if (valor == 0) {
-                    AlertBox alertBox = new AlertBox();
+        for (int[] row : matrix) {
+            for (int value : row) {
+                if (value == 0) {
                     alertBox.showWarningAlertBox("Incompleto", "Aún hay celdas vacías.", null);
                     return;
                 }
             }
         }
 
-        if (SudokuValidator.isBoardValid(matriz)) {
-            lblMensaje.setText("¡Felicitaciones! Sudoku correcto.");
-            AlertBox alertBox = new AlertBox();
+        if (SudokuValidator.isBoardValid(matrix)) {
+            lblMessage.setText("¡Felicitaciones! Sudoku correcto.");
             alertBox.showAlertBox("Correcto", "¡Felicitaciones! Sudoku completo.", null);
 
         } else {
-            lblMensaje.setText("El Sudoku tiene errores.");
-            AlertBox alertBox = new AlertBox();
+            lblMessage.setText("El Sudoku tiene errores.");
             alertBox.showWarningAlertBox("Error", "Hay números que no cumplen las reglas.", null);
         }
     }
@@ -296,48 +290,38 @@ private void nuevoJuego(ActionEvent event) {
      * The suggested cell is highlighted for 3 seconds.
      */
     @FXML
-    private void pedirAyuda() {
+    private void askForHelp() {
         // Check if there are still aids available
-        if (ayudasDisponibles <= 0) {
-            Alert sinAyuda = new Alert(Alert.AlertType.INFORMATION);
-            sinAyuda.setTitle("Ayuda");
-            sinAyuda.setHeaderText(null);
-            sinAyuda.setContentText("No te quedan ayudas disponibles.");
-            lblMensaje.setText("Sin sugerencias");
-            sinAyuda.showAndWait();
+        if (availableAids <= 0) {
+            alertBox.showAlertBox("Ayuda","No te quedan ayudas disponibles",null);
+            lblMessage.setText("Sin sugerencias");
             return;
         }
 
-        int[][] tablero = board.getBoard();
+        int[][] boardToHelp = board.getBoard();
 
         //Find an empty cell
-        for (int fila = 0; fila < 6; fila++) {
+        for (int row = 0; row < 6; row++) {
             for (int col = 0; col < 6; col++) {
-                if (tablero[fila][col] == 0) {
+                if (boardToHelp[row][col] == 0) {
 
                     //Find a valid number from 1 to 6
                     for (int num = 1; num <= 6; num++) {
-                        if (SudokuValidator.isValid(tablero, fila, col, num)) {
+                        if (SudokuValidator.isValid(boardToHelp, row, col, num)) {
 
-                            ayudasDisponibles--;
+                            availableAids--;
 
                             // Highlight the cell (visual suggestion only)
-                            TextField celda = celdas[fila][col];
-                            celda.setStyle("-fx-background-color: yellow;");
+                            TextField cell = cells[row][col];
+                            cell.setStyle("-fx-background-color: yellow;");
 
                             // Show message on the label
-                            lblMensaje.setText("Sugerencia: En la celda (" + (fila + 1) + "," + (col + 1) + ") podrías probar el número " + num);
+                            lblMessage.setText("Sugerencia: En la celda (" + (row + 1) + "," + (col + 1) + ") podrías probar el número " + num);
 
                             // Show alert to the user
-                            Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-                            alerta.setTitle("Sugerencia de ayuda");
-                            alerta.setHeaderText(null);
-                            alerta.setContentText("En la celda (" + (fila + 1) + "," + (col + 1) +
-                                                    ") puedes probar el número " + num + ".\n" +
-                                                    "Te quedan " + ayudasDisponibles + " ayudas.");
-                            alerta.showAndWait();
-
-
+                            alertBox.showAlertBox("Sugerencia de ayuda","En la celda (" + (row + 1) + "," + (col + 1) +
+                                    ") puedes probar el número " + num + ".\n" +
+                                    "Te quedan " + availableAids + " ayudas.", null);
                             return; // Solo una sugerencia por clic
                         }
                     }
@@ -346,11 +330,7 @@ private void nuevoJuego(ActionEvent event) {
         }
 
         // If there are no empty cells or suggestions
-        Alert sinAyuda = new Alert(Alert.AlertType.INFORMATION);
-        sinAyuda.setTitle("Ayuda");
-        sinAyuda.setHeaderText(null);
-        sinAyuda.setContentText("No hay más sugerencias disponibles.");
-        sinAyuda.showAndWait();
+        alertBox.showAlertBox("Ayuda","No hay más sugerencias disponibles.",null);
     }
 
 
@@ -361,7 +341,7 @@ private void nuevoJuego(ActionEvent event) {
      */
     @FXML
     void onActionHowToPlayButton(ActionEvent event) {
-        String instrucciones = """
+        String instructions = """
             Cómo jugar Sudoku 6x6:
 
             1) Cada fila debe contener los números del 1 al 6 sin repetir.
@@ -369,13 +349,13 @@ private void nuevoJuego(ActionEvent event) {
             3) Cada bloque de 2x3 debe tener también los números del 1 al 6 sin repetir.
             4) Usa solo números del 1 al 6.
             5) Si ingresas un número incorrecto, el sistema te avisará.
-            6) Puedes pedir ayuda con el botón 'Ayuda'.
+            6) Puedes pedir ayuda con el botón 'Ayuda' (tienes 3 ayudas por partida).
             7) Para comenzar una nueva partida, presiona 'Nuevo Juego'.
             """;
 
 
         AlertBox alertBox = new AlertBox();
-        alertBox.showAlertBox("Instrucciones del Sudoku 6x6", instrucciones, null);
+        alertBox.showAlertBox("Instrucciones del Sudoku 6x6", instructions, null);
 
 
     }
@@ -385,11 +365,11 @@ private void nuevoJuego(ActionEvent event) {
      * Restores the original color (white) to all cells.
      * Used when starting a new game or when you want to clear visual aids.*/
 
-    private void limpiarColoresCeldas() {
-        for (int fila = 0; fila < 6; fila++) {
+    private void clearCellColors() {
+        for (int row = 0; row < 6; row++) {
             for (int col = 0; col < 6; col++) {
                 // Remove any applied style
-                celdas[fila][col].setStyle("");
+                cells[row][col].setStyle("");
             }
         }
     }

@@ -24,8 +24,6 @@ import java.io.IOException;
 public class SudokuView extends Stage {
 
 
-
-
     /**
      * Constructor that loads the Sudoku game view from its FXML file
      * and initializes the corresponding controller.

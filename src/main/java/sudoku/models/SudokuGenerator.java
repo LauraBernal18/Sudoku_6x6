@@ -1,7 +1,6 @@
 package sudoku.models;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Random;
 
 /**
@@ -43,7 +42,7 @@ public class SudokuGenerator {
      * Sudoku 6x6 rules (no repetition in row, column, or 2x3 box).
      *
      * @param board the 6x6 board to fill
-     * @return {@code true} if the board was successfully filled, otherwise {@code false}
+     * @return true if the board was successfully filled, otherwise false
      */
 
     private boolean fillBoard(int[][] board) {
@@ -53,12 +52,12 @@ public class SudokuGenerator {
             for (int col = 0; col < 6; col++) {
                 if (board[row][col] == 0) {
 
-                    int[] numeros = {1,2,3,4,5,6};
+                    int[] numbers = {1,2,3,4,5,6};
 
 
                     for (int num = 1; num <= 6; num++) {
                         int index = random.nextInt(6);
-                        num = numeros[index];
+                        num = numbers[index];
 
                         if (isValid(board, row, col, num)) {
                             board[row][col] = num;
@@ -82,7 +81,7 @@ public class SudokuGenerator {
      * @param row   the row index (0–5)
      * @param col   the column index (0–5)
      * @param num   the number to validate (1–6)
-     * @return {@code true} if the number can be placed, otherwise {@code false}
+     * @return true if the number can be placed, otherwise false
      */
 
     private boolean isValid(int[][] board, int row, int col, int num) {

@@ -31,7 +31,7 @@ public class WelcomeView extends Stage {
      */
     public WelcomeView() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(
-                getClass().getResource("/sudoku/fxml/instrucciones-view.fxml")
+                getClass().getResource("/sudoku/fxml/instructions-view.fxml")
         );
 
         //to open the file, read it
@@ -72,24 +72,3 @@ public class WelcomeView extends Stage {
     }
 }
 
-
-/* ----------------------------------------
-   Represents the welcome view...
-   Represents the welcome view (initial window) of the Sudoku game.
-   This class is responsible for loading and displaying the instructions window before the game starts.
-
-   Implements the Singleton pattern...
-   Implements the Singleton pattern to ensure that only one instance of the welcome window exists at the same time.
-
-   Constructor that loads the FXML...
-   Constructor that loads the FXML file corresponding to the instructions view and displays
-    it as the main scene of the application.
-
-   Returns the single instance...
-   Returns the single instance of the WelcomeView class.
-   If it does not exist yet,
-
-   it creates it.Static nested class used...
-   Static nested class used to implement the Singleton pattern.
-   Ensures that only one instance of the class is created during execution.
-*/

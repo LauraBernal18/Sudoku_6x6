@@ -25,7 +25,7 @@ public class SudokuValidator {
      * @param row   the target row index (0–5)
      * @param col   the target column index (0–5)
      * @param num   the number to validate (1–6)
-     * @return {@code true} if the number is valid, {@code false} otherwise
+     * @return true if the number is valid, false otherwise
      */
 
     public static boolean isValid(int[][] board, int row, int col, int num) {
